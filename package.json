@@ -1,0 +1,24 @@
+{
+  "name": "vue-element-template",
+  "version": "1.0.0",
+  "description": "A koa.js project",
+  "author": "蒋亚林 <18725944157@163.com>",
+  "private": true,
+  "scripts": {
+    "dev": "node server",
+    "start": "npm run dev"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+  },
+  "engines": {
+    "node": ">= 4.0.0",
+    "npm": ">= 3.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
+}
