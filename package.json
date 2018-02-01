@@ -5,15 +5,25 @@
   "author": "蒋亚林 <18725944157@163.com>",
   "private": true,
   "scripts": {
-    "dev": "node server",
-    "start": "npm run dev"
+    "start": "cross-env NODE_ENV=production ./node_modules/.bin/nodemon ./index.js",
+    "dev": "cross-env NODE_ENV=development ./node_modules/.bin/nodemon ./index.js",
+    "test": "cross-env NODE_ENV=test ./node_modules/.bin/nodemon ./index.js"
   },
   "dependencies": {
+    "babel-register": "^6.26.0",
+    "koa": "^2.4.1"
   },
   "devDependencies": {
+    "babel-core": "^6.21.0",
+    "babel-plugin-transform-runtime": "^6.15.0",
+    "babel-polyfill": "^6.20.0",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-stage-2": "^6.18.0",
+    "cross-env": "^3.1.4",
+    "nodemon": "^1.11.0"
   },
   "engines": {
-    "node": ">= 4.0.0",
+    "node": ">= 7.6.0",
     "npm": ">= 3.0.0"
   },
   "browserslist": [
