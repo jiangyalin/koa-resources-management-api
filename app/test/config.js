@@ -1,5 +1,5 @@
 // mongodb配置文件
-export default {
+module.exports = {
     port: 8088,
     session: {
         secret: 'personalDB',
