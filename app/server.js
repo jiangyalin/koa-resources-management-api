@@ -5,11 +5,14 @@ import convert from 'koa-convert'
 import cors from 'koa-cors' // 跨域
 import bodyParser from 'koa-bodyparser' // 请求体JSON解析
 import error from 'koa-onerror' // 错误处理
+import koaBody from 'koa-body'
 import config from './config'
 import routes from './routes'
 const app = new Koa()
 
 error(app)
+
+app.use(koaBody())
 
 app.use(convert(cors()))
 
