@@ -1,10 +1,25 @@
+import path from 'path'
 import Koa from 'koa'
+import staticCache from 'koa-static-cache'
+import convert from 'koa-convert'
+import cors from 'koa-cors' // 跨域
+import bodyParser from 'koa-bodyparser' // 请求体JSON解析
+import error from 'koa-onerror' // 错误处理
 import config from './config'
+import routes from './routes'
 const app = new Koa()
 
-app.use(async ctx => {
-    ctx.body = 'Hello World2'
-})
+error(app)
+
+app.use(convert(cors()))
+
+app.use(bodyParser())
+
+app.use(staticCache(path.join(__dirname, './public'), {
+    maxAge: 365 * 24 * 60 * 60
+}))
+
+app.use(routes.routes(), routes.allowedMethods())
 
 app.listen(config.port, () => {
     console.log('启动成功：' + config.port)
