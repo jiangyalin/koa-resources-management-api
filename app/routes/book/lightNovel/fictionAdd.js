@@ -1,24 +1,41 @@
 import Router from 'koa-router'
+import Book from './../../../models/book'
 
 const router = Router()
 
 // 添加书籍
 router.post('/', async (ctx, next) => {
     const parameter = ctx.request.body
-    console.log('body', parameter)
-    let data = {}
-    // if (id === '1') {
-        data = {
-            code: '200',
-            book: []
-        }
-    // } else {
-    //     data = {
-    //         code: '403',
-    //         book: []
-    //     }
-    // }
-    ctx.body = data
+    let book = {
+        bookName: parameter.bookName, // 书籍名称
+        area: parameter.area, // 地区
+        releaseTime: parameter.releaseTime, // 发售时间
+        author: parameter.author, // 作者
+        illustrator: parameter.illustrator // 插画师
+    }
+    const model = new Promise((resolve, reject) => {
+        Book.create(book, (err, result) => {
+            if (err) {
+                reject({
+                    code: '500',
+                    book: []
+                })
+            } else {
+                resolve({
+                    code: '200',
+                    book: []
+                })
+            }
+        })
+    })
+
+    const date = await model.then((resolve) => {
+        return resolve
+    }).catch((reject) => {
+        return reject
+    })
+
+    ctx.body = date
 })
 
 export default router
