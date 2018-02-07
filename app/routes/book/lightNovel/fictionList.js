@@ -1,4 +1,6 @@
 import Router from 'koa-router'
+import Book from './../../../models/book'
+import PageList from './../../../models/pageList'
 
 const router = Router()
 
@@ -7,61 +9,38 @@ router.get('/', async (ctx, next) => {
     const parameter = ctx.query
     const id = parameter.id
     let data = {}
+    const page = Number(parameter.pageNum) + 1 // 当前页码
+    const pageSize = Number(parameter.pageSize) // 每页条数
+    const qs = new RegExp('') // 标题正则参数
+    const Model = Book // 模板
+    const populate = ''
+    const criteria = {is_deleted: 1, $or: [{bookName: qs}, {author: qs}]} // 查询条件
+    let fields = {bookName : 2, area : 1, releaseTime : -1, author: 1, illustrator: 1} // 待返回的字段
+    const options = {sort: [{ bookName: -1 }]} // 排序
+    
     if (id === '1') {
-        data = {
-            code: '200',
-            book: [{
-                id: '465',
-                bookName: '魔法禁书目录',
-                author: '镰池和马',
-                updateTime: '2015-05-05 08:55'
-            }, {
-                id: '465',
-                bookName: '魔法禁书目录',
-                author: '镰池和马',
-                updateTime: '2015-05-05 08:55'
-            }, {
-                id: '465',
-                bookName: '魔法禁书目录',
-                author: '镰池和马',
-                updateTime: '2015-05-05 08:55'
-            }, {
-                id: '465',
-                bookName: '魔法禁书目录',
-                author: '镰池和马',
-                updateTime: '2015-05-05 08:55'
-            }, {
-                id: '465',
-                bookName: '魔法禁书目录',
-                author: '镰池和马',
-                updateTime: '2015-05-05 08:55'
-            }, {
-                id: '465',
-                bookName: '魔法禁书目录',
-                author: '镰池和马',
-                updateTime: '2015-05-05 08:55'
-            }, {
-                id: '465',
-                bookName: '魔法禁书目录',
-                author: '镰池和马',
-                updateTime: '2015-05-05 08:55'
-            }, {
-                id: '465',
-                bookName: '魔法禁书目录',
-                author: '镰池和马',
-                updateTime: '2015-05-05 08:55'
-            }, {
-                id: '465',
-                bookName: '魔法禁书目录',
-                author: '镰池和马',
-                updateTime: '2015-05-05 08:55'
-            }, {
-                id: '465',
-                bookName: '魔法禁书目录',
-                author: '镰池和马',
-                updateTime: '2015-05-05 08:55'
-            }]
-        }
+        const model = new Promise((resolve, reject) => {
+            PageList.pageQuery(page, pageSize, Model, populate, criteria, fields, options, (err, $page) => {
+                if (err) {
+                    reject({
+                        code: '500',
+                        content: []
+                    })
+                } else {
+                    resolve({
+                        code: '200',
+                        totalElements: $page.count,
+                        content: $page.results
+                    })
+                }
+            })
+        })
+
+        data = await model.then((resolve) => {
+            return resolve
+        }).catch((reject) => {
+            return reject
+        })
     } else {
         data = {
             code: '403',
