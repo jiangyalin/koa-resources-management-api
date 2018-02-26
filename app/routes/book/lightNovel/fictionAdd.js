@@ -18,12 +18,16 @@ router.post('/', async (ctx, next) => {
             if (err) {
                 reject({
                     code: '500',
-                    book: []
+                    data: {
+                        book: []
+                    }
                 })
             } else {
                 resolve({
                     code: '200',
-                    book: []
+                    data: {
+                        book: []
+                    }
                 })
             }
         })
