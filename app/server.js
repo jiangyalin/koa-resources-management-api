@@ -19,7 +19,8 @@ app.use(convert(cors()))
 app.use(bodyParser())
 
 app.use(staticCache(path.join(__dirname, './public'), {
-    maxAge: 365 * 24 * 60 * 60
+    maxAge: 365 * 24 * 60 * 60,
+    dynamic: true
 }))
 
 app.use(routes.routes(), routes.allowedMethods())

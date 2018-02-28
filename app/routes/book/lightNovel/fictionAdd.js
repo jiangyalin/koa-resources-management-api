@@ -11,7 +11,8 @@ router.post('/', async (ctx, next) => {
         area: parameter.area, // 地区
         releaseTime: parameter.releaseTime, // 发售时间
         author: parameter.author, // 作者
-        illustrator: parameter.illustrator // 插画师
+        illustrator: parameter.illustrator, // 插画师
+        file: parameter.fileId // 文件id
     }
     const model = new Promise((resolve, reject) => {
         Book.create(book, (err, result) => {
