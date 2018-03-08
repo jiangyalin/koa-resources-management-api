@@ -12,6 +12,7 @@ router.post('/', async (ctx, next) => {
         releaseTime: parameter.releaseTime, // 发售时间
         author: parameter.author, // 作者
         illustrator: parameter.illustrator, // 插画师
+        cover: parameter.coverId, // 封面id
         file: parameter.fileId // 文件id
     }
     const model = new Promise((resolve, reject) => {
