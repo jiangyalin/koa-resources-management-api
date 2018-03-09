@@ -10,6 +10,7 @@ const BookSchema = new Schema({
     illustrator: { type: String, default: null }, // 插画师
     cover: { type: Schema.Types.ObjectId, ref: 'file' }, // 封面
     bookFile: { type: Schema.Types.ObjectId, ref: 'file' }, // 文件id
+    introduction: { type: String, default: null }, // 简介
     createTime: { type: Date, default: Date.now }, // 创建时间
     is_deleted: { type: Number, default: 1 } // 删除状态
 })

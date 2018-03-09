@@ -13,7 +13,8 @@ router.post('/', async (ctx, next) => {
         author: parameter.author, // 作者
         illustrator: parameter.illustrator, // 插画师
         cover: parameter.coverId, // 封面id
-        bookFile: parameter.fileId // 文件id
+        bookFile: parameter.fileId, // 文件id
+        introduction: parameter.introduction // 简介
     }
     const model = new Promise((resolve, reject) => {
         Book.create(book, (err, result) => {

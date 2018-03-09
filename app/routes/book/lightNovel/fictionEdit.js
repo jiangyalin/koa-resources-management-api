@@ -13,7 +13,8 @@ router.post('/', async (ctx, next) => {
         author: parameter.author, // 作者
         illustrator: parameter.illustrator, // 插画师
         bookFile: parameter.fileId, // 文件id
-        cover: parameter.coverId // 封面id
+        cover: parameter.coverId, // 封面id
+        introduction: parameter.introduction // 简介
     }
 
     const criteria = { is_deleted: 1, $or: [{ _id: parameter.id }] } // 查询条件
