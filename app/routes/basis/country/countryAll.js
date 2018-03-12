@@ -3,7 +3,7 @@ import Book from './../../../models/country'
 
 const router = Router()
 
-// 获取书籍列表
+// 获取国家列表
 router.get('/', async (ctx, next) => {
     const Model = Book // 模板
     const criteria = { is_deleted: 1 } // 查询条件

@@ -3,6 +3,8 @@ import basis from './basis'
 import login from './login'
 import book from './book'
 import upload from './upload'
+import user from './user'
+import yaoXiao from './yao-xiao'
 
 const router = Router()
 
@@ -17,6 +19,12 @@ router.use('/api', book.routes(), book.allowedMethods())
 
 // 上传
 router.use('/api', upload.routes(), upload.allowedMethods())
+
+// 用户
+router.use('/api', user.routes(), user.allowedMethods())
+
+// 姚逍
+router.use('/api', yaoXiao.routes(), yaoXiao.allowedMethods())
 
 export default router
 
