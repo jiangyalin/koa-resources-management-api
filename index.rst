@@ -27,10 +27,10 @@ GET  /api/yaoxiao/app                              获取app列表
 +++++++++++++++++++++++++++++
 
 ::
-{
-  "name": "Zhang Hua",
-  "url": "http://blog.csdn.net/quqi99"
-}
+    {
+      "name": "Zhang Hua",
+      "url": "http://blog.csdn.net/quqi99"
+    }
 
 List need begin with *
 ++++++++++++++++++++++
