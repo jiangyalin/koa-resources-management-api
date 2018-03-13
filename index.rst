@@ -1,118 +1,48 @@
-## 用户信息接口列表
+Title 1, use "====", how to write rst doc
+=========================================
 
----
+This is title, one rst example.
 
-#### 读取接口
+Title 2, use "----", one table example
+--------------------------------------
 
-|  |  |
-|:-------------:|:-------------|
-| [users/mobile](#users-mobile) | 获取用户手机号 |
+This is table example.
 
+==== ============================================ =======================  
+Verb          URI                                  Description
+==== ============================================ =======================
+GET  clouds/{cloud_id}/networks          Retrieve list of network extensions
+==== ============================================ =======================
 
-#### 写入接口
+Title 3, Query Parameters
++++++++++++++++++++++++++
 
-|  |  |
-|:-------------:|:-------------|
-| [users/mobile/put](#users-mobile-put) | 上传用户手机号 |
+The following table shows the query parameters for this service.
 
+=========== ================================= ========
+Attribute               Description           Required
+=========== ================================= ========
+osNetworkId      The id of OpenStack network.       No
+=========== ================================= ========
 
-## 用户信息接口详情
+Code block need begin with ::
++++++++++++++++++++++++++++++
 
-* #### users/mobile
+::
+   {
+         "name": "Zhang Hua",
+         "url": "http://blog.csdn.net/quqi99"
+       }
 
----
+List need begin with *
+++++++++++++++++++++++
 
-获取用户手机号
+The following attributes are used in the request body:
 
-##### 是否需要权限验证
+* ``name``
 
----
+  Human-readable name. Might not be unique. Optional.
 
-是
+* ``url``
 
-##### 请求参数
-
----
-
-| | 必选 | 类型 | 说明 |
-|:-------------:|:-------------|:-------------|
-| userId | true | int | 用户ID |
-
-##### 请求方法
-
----
-
-GET
-
-##### 调用样例
-
----
-
-` ``
-users/mobile?userId=214
-` ``
-
-##### 返回结果
-
----
-
-*** JSON示例 ***
-
-` ``
-
-{
-
-"code": 0,
-
-"msg": "",
-
-"data": {
-
-"mobile": 150888888888
-
-}
-
-}
-
-` ``
-
-*** 错误返回值 ***
-
-| code | msg | 说明 |
-|:-------------:|:-------------|
-| 1010 | xxxx | xxxx |
-
-关于其它错误返回值与错误代码，参见 [错误代码说明](#errorcode)
-
-
-
-## ErrorCode
-
-### 错误代码对照表
-
----
-
-##### 系统级错误
-
----
-
-| 错误代码 | 返回msg | 详细描述 |
-|:-------------:|:-------------|
-| 400 | 系统错误，请稍候再试 | 请求参数有误 |
-| 401 | 系统错误，请稍候再试 | 用户未登录 |
-| 404 | 系统错误，请稍候再试 | 资源未找到 |
-| 405 | 系统错误，请稍候再试 | 请求方法不支持 |
-| 500 | 系统错误，请稍候再试 | 服务器错误 |
-
-##### 业务级错误
-
----
-
-| 错误代码 | 详细描述 |
-|:-------------:|:-------------|
-| 1010 | xxxx |
-
-作者：I一M
-链接：https://www.jianshu.com/p/34c95ef4fce6
-來源：简书
-著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+  url value.
