@@ -4,7 +4,6 @@ const Schema = mongoose.Schema
 import async from 'async'
 // 当前页码，每页条数，模板, 外键, 查询参数, 排序方式, 回调
 let pageQuery = (page, pageSize, Model, populate, queryParams, fields, sortParams, callback) => {
-    console.log(page, pageSize, Model, populate, queryParams, fields, sortParams, callback)
     let start = (page -1) * pageSize
     let $page = {
         pageNumber: page
