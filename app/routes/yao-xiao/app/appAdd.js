@@ -13,7 +13,7 @@ router.post('/', async (ctx, next) => {
                 reject({
                     code: '500',
                     data: {
-                        user: []
+                        app: []
                     },
                     tips: err
                 })
@@ -21,7 +21,7 @@ router.post('/', async (ctx, next) => {
                 resolve({
                     code: '200',
                     data: {
-                        user: []
+                        app: []
                     }
                 })
             }
