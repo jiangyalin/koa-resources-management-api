@@ -17,7 +17,7 @@ router.post('/', async (ctx, next) => {
     const fileFlow = new Promise((resolve, reject) => {
         form.parse(ctx.req, async (err, fields, files) => {
             if (err) reject('parse error: ' + err)
-
+            console.log('files = ', files)
             let inputFile = files.img[0]
             const fileSuffixName = inputFile.originalFilename.substring(inputFile.originalFilename.lastIndexOf('.'))
             inputFile.originalFilename = Date.now() + fileSuffixName
