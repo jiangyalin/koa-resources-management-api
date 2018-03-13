@@ -1,7 +1,7 @@
 const Book = new require('./book');
 
 const page = Number(0) + 1 // 当前页码
-const pageSize = Number(10) // 每页条数
+const pageSize = Number(1) // 每页条数
 const qs = new RegExp('') // 标题正则参数
 const Model = Book // 模板
 const populate = []
@@ -10,5 +10,5 @@ const fields = { bookName: 1, area: 1, releaseTime: 1, author: 1, illustrator: 1
 const options = { sort: [{ releaseTime: -1 }] } // 排序
 
 Model.find(criteria, fields, options, function (err, result) {
-    console.log('ss', result.length)
+    console.log('ss', result)
 }).skip((page -1) * pageSize).limit(pageSize).populate(populate)
