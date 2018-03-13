@@ -30,55 +30,25 @@ GET  /api/yaoxiao/app                              获取app列表
 
     {
       code: "200",
-
       data: {
-
         totalElements: 2,
-
         content: [{
-
           content: "内容",
-
           img: {
-
             _id: "5aa2425b1504fe37c8a87f89",
-
             createTime: "2018-03-09T08:14:19.987Z",
-
             name: "1520583259979.png",
-
             path: "/images/",
-
             size: "208480",
-
             suffixName: "image/png",
-
             type: "image"
-
           },
-
           name: "名称",
-
           type: 1,
-
           _id: "5aa643298302f54568fd4e04"
-
         }]
-
       }
-
     }
-
-::
-
-
-
-    for i in [1,2,3,4,5]:
-
-        print i
-
-    # 代码块测试
-
 
 
 很简单的代码块测试。
