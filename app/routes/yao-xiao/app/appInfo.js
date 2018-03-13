@@ -1,40 +1,37 @@
 import Router from 'koa-router'
 import App from './../../../models/yao-xiao/app'
-import PageList from './../../../models/pageList'
 
 const router = Router()
 
-// 获取用户列表
+// 获取app详情
 router.get('/', async (ctx, next) => {
     const parameter = ctx.query
-    const page = Number(parameter.pageNum) + 1 // 当前页码
-    const pageSize = Number(parameter.pageSize) // 每页条数
-    const qs = new RegExp('') // 标题正则参数
-    const Model = App // 模板
+    const criteria = { is_deleted: 1, $or: [{ _id: parameter.id }] } // 查询条件
     const populate = [{ path: 'img' }]
-    const criteria = { is_deleted: 1, $or: [{ name: qs }]} // 查询条件
     const fields = { name: 1, type: 1, content: 1, img: 1 } // 待返回的字段
-    const options = { sort: [{ releaseTime: -1 }] } // 排序
+    const options = { sort: [{ bookName: -1 }] } // 排序
 
     const model = new Promise((resolve, reject) => {
-        PageList.pageQuery(page, pageSize, Model, populate, criteria, fields, options, (err, $page) => {
+        App.findOne(criteria, fields, options, (err, result) => {
             if (err) {
                 reject({
                     code: '500',
-                    data: {
-                        content: []
-                    }
+                    data: {}
                 })
-            } else {
+            } else if (result !== null) {
                 resolve({
                     code: '200',
                     data: {
-                        totalElements: $page.count,
-                        content: $page.results
+                        ...result._doc
                     }
                 })
+            } else {
+                reject({
+                    code: '401',
+                    data: {}
+                })
             }
-        })
+        }).populate(populate)
     })
 
     const data = await model.then((resolve) => {
