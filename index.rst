@@ -1,9 +1,9 @@
-姚逍
+### 姚逍
 =========================================
 
 This is title, one rst example.
 
-app
+#### app
 --------------------------------------
 
 ==== ============================================ =======================
@@ -12,7 +12,7 @@ Verb          URI                                  描述
 GET  /api/yaoxiao/app                              获取app列表
 ==== ============================================ =======================
 
-请求参数
+##### 请求参数
 +++++++++++++++++++++++++
 
 ============= ============================== ======== ===========
@@ -23,7 +23,7 @@ GET  /api/yaoxiao/app                              获取app列表
  currentPage   总数据量                         否     100
 ============= ============================== ======== ===========
 
-返回数据
+##### 返回数据
 +++++++++++++++++++++++++++++
 
 ::
@@ -31,37 +31,21 @@ GET  /api/yaoxiao/app                              获取app列表
     {
       code: "200",
       data: {
-        totalElements: 2,
+        totalElements: 2, // 数据总量
         content: [{
-          content: "内容",
+          content: "内容", // 内容
           img: {
-            _id: "5aa2425b1504fe37c8a87f89",
-            createTime: "2018-03-09T08:14:19.987Z",
-            name: "1520583259979.png",
-            path: "/images/",
-            size: "208480",
-            suffixName: "image/png",
-            type: "image"
+            _id: "5aa2425b1504fe37c8a87f89", // id
+            createTime: "2018-03-09T08:14:19.987Z", // 添加时间
+            name: "1520583259979.png", // 名称
+            path: "/images/", // 路径
+            size: "208480", // 文件大小（kb）
+            suffixName: "image/png", // 文件类型
+            type: "image" // 文件分类
           },
-          name: "名称",
-          type: 1,
-          _id: "5aa643298302f54568fd4e04"
+          name: "名称", // 名称
+          type: 1, // 类型
+          _id: "5aa643298302f54568fd4e04" // id
         }]
       }
     }
-
-
-很简单的代码块测试。
-
-List need begin with *
-++++++++++++++++++++++
-
-The following attributes are used in the request body:
-
-* ``name``
-
-  Human-readable name. Might not be unique. Optional.
-
-* ``url``
-
-  url value.
