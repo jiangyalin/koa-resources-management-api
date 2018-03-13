@@ -2,9 +2,9 @@
 export default {
     port: 8088,
     session: {
-        secret: 'personalDB',
-        key: 'personalDB',
+        secret: 'acgnDB',
+        key: 'acgnDB',
         maxAge: 2592000000
     },
-    mongodb: 'mongodb://localhost:27017/acgnDB' //
+    mongodb: 'mongodb://localhost:27017/acgnDB'
 }
