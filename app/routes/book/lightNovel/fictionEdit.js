@@ -3,7 +3,7 @@ import Book from './../../../models/book'
 
 const router = Router()
 
-// 添加书籍
+// 编辑书籍
 router.post('/', async (ctx, next) => {
     const parameter = ctx.request.body
     let book = {
@@ -19,7 +19,7 @@ router.post('/', async (ctx, next) => {
 
     const criteria = { is_deleted: 1, $or: [{ _id: parameter.id }] } // 查询条件
     const doc = book // 修改的字段
-    const options = { sort: [{ bookName: -1 }] } // 排序
+    const options = { sort: [{ createTime: -1 }] } // 排序
 
     const model = new Promise((resolve, reject) => {
         Book.update(criteria, doc, options, (err, result) => {

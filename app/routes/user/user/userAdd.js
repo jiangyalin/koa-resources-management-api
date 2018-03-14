@@ -7,6 +7,7 @@ const router = Router()
 router.post('/', async (ctx, next) => {
     const parameter = ctx.request.body
     let user = parameter
+    
     const model = new Promise((resolve, reject) => {
         User.create(user, (err, result) => {
             if (err) {
@@ -14,16 +15,18 @@ router.post('/', async (ctx, next) => {
                     code: '500',
                     data: {
                         user: []
-                    }
-                })
-            } else {
-                resolve({
-                    code: '200',
-                    data: {
-                        user: []
-                    }
+                    },
+                    message: err.message
                 })
             }
+
+            resolve({
+                code: '200',
+                data: {
+                    user: result
+                }
+            })
+
         })
     })
 

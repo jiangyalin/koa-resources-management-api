@@ -1,22 +1,32 @@
 import Router from 'koa-router'
-import Book from './../../../models/book'
+import User from './../../../models/user'
 
 const router = Router()
 
-// 删除书籍
-router.delete('/', async (ctx, next) => {
-    const parameter = ctx.query
+// 编辑用户
+router.post('/', async (ctx, next) => {
+    const parameter = ctx.request.body
+    let user = {
+        name: parameter.name, // 姓名
+        nickname: parameter.nickname, // 昵称
+        gender: parameter.gender, // 性别 0 保密，1 男， 2女
+        phone: parameter.phone, // 手机
+        eMail: parameter.eMail, // 电子邮箱
+        birthDate: parameter.birthDate, // 出生日期
+        avatar: parameter.avatar // 头像
+    }
 
     const criteria = { is_deleted: 1, $or: [{ _id: parameter.id }] } // 查询条件
-    const doc = { is_deleted: 0 } // 修改的字段
+    const doc = user // 修改的字段
     const options = { sort: [{ createTime: -1 }] } // 排序
 
     const model = new Promise((resolve, reject) => {
-        Book.update(criteria, doc, options, (err, result) => {
+        User.update(criteria, doc, options, (err, result) => {
             if (err) {
                 reject({
                     code: '500',
-                    data: {}
+                    data: {},
+                    message: err.message
                 })
             } else {
                 resolve({

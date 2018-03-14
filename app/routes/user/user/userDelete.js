@@ -1,9 +1,9 @@
 import Router from 'koa-router'
-import Book from './../../../models/book'
+import User from './../../../models/user'
 
 const router = Router()
 
-// 删除书籍
+// 删除用户
 router.delete('/', async (ctx, next) => {
     const parameter = ctx.query
 
@@ -12,11 +12,12 @@ router.delete('/', async (ctx, next) => {
     const options = { sort: [{ createTime: -1 }] } // 排序
 
     const model = new Promise((resolve, reject) => {
-        Book.update(criteria, doc, options, (err, result) => {
+        User.update(criteria, doc, options, (err, result) => {
             if (err) {
                 reject({
                     code: '500',
-                    data: {}
+                    data: {},
+                    message: err.message
                 })
             } else {
                 resolve({

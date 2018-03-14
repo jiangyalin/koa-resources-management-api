@@ -8,77 +8,63 @@ const router = Router()
 // 上传
 router.post('/', async (ctx, next) => {
     const parameter = ctx.request.body
-    console.log('sss', parameter)
+
     let data = {}
-    // 生成multiparty对象，并配置上传目标路径
+
     const path = '/avatar/'
-    const form = new multiparty.Form({
-        maxFieldsSize: 100,
-        uploadDir: './app/public' + path
-    })
+    var base64Data = parameter.avatar.replace(/^data:image\/\w+;base64,/, "")
+    var dataBuffer = new Buffer(base64Data, 'base64')
+
     const fileFlow = new Promise((resolve, reject) => {
-        form.parse(ctx.req, async (err, fields, files) => {
-            if (err) reject('parse error: ' + err)
+        console.log('sss')
 
-            let inputFile = files.img[0]
-            const fileSuffixName = inputFile.originalFilename.substring(inputFile.originalFilename.lastIndexOf('.'))
-            inputFile.originalFilename = Date.now() + fileSuffixName
-            const uploadedPath = inputFile.path
-            const dstPath = './app/public' + path + inputFile.originalFilename
+        let inputFile = {}
+        const fileSuffixName = '.png'
+        inputFile.originalFilename = Date.now() + fileSuffixName
+        const dstPath = './app/public' + path + inputFile.originalFilename
 
-            // 重命名为真实文件名
-            const file = new Promise((resolve, reject) => {
-                fs.rename(uploadedPath, dstPath, async (err) => {
+        console.log('inputFile', inputFile)
+        console.log('dstPath', dstPath)
 
-                    if (err) reject('rename error: ' + err)
+        fs.writeFile(dstPath, dataBuffer, async (err) => {
+            console.log('ppp')
+            if (err) reject('rename error: ' + err)
 
-                    const fileInfo = {
-                        name: inputFile.originalFilename, // 文件名称
-                        type: 'image', // 文件类型
-                        suffixName: inputFile.headers['content-type'], // 文件后缀名
-                        path: path,
-                        size: inputFile.size
-                    }
+            const fileInfo = {
+                name: inputFile.originalFilename, // 文件名称
+                type: 'avatar', // 文件类型
+                suffixName: 'image/png', // 文件后缀名
+                path: path,
+                size: inputFile.size
+            }
 
-                    const model = new Promise((resolve, reject) => {
-                        File.create(fileInfo, (err, result) => {
-                            if (err) {
-                                reject({
-                                    code: '500',
-                                    data: {}
-                                })
-                            } else {
-                                resolve({
-                                    code: '200',
-                                    data: {
-                                        id: result._id
-                                    }
-                                })
+            const model = new Promise((resolve, reject) => {
+                File.create(fileInfo, (err, result) => {
+                    if (err) {
+                        reject({
+                            code: '500',
+                            data: {}
+                        })
+                    } else {
+                        resolve({
+                            code: '200',
+                            data: {
+                                id: result._id
                             }
                         })
-                    })
-
-                    const fileDate = await model.then((resolve) => {
-                        return resolve
-                    }).catch((reject) => {
-                        return reject
-                    })
-
-                    resolve(fileDate)
-
-                    ctx.body = fileDate
-
+                    }
                 })
             })
 
-            data = await file.then((resolve) => {
+            const fileDate = await model.then((resolve) => {
                 return resolve
             }).catch((reject) => {
                 return reject
             })
 
-            resolve(data)
+            resolve(fileDate)
 
+            ctx.body = fileDate
         })
 
     })
