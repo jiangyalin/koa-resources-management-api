@@ -15,6 +15,7 @@ router.get('/', async (ctx, next) => {
     const model = new Promise((resolve, reject) => {
         User.findOne(criteria, fields, options, (err, result) => {
             if (err) {
+                console.log('err', err)
                 reject({
                     code: '500',
                     data: {},
@@ -33,7 +34,6 @@ router.get('/', async (ctx, next) => {
                     data: {}
                 })
             }
-            console.log('result', result)
         }).populate(populate)
     })
 

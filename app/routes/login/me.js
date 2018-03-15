@@ -6,6 +6,7 @@ const router = Router()
 router.get('/', async (ctx, next) => {
     const parameter = ctx.query
     const id = parameter.id
+    
     let data = {}
     if (id === '1') {
         data = {
