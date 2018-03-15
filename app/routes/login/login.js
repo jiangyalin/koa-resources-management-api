@@ -29,7 +29,7 @@ router.post('/', async (ctx, next) => {
                 // Request.get({ url, qs }, (err, result, body) => {
                 //     console.log('body', body)
                 // })
-                const token = jwt.sign({ id: result._id }, config.tokenKey, { expiresIn:  60 })
+                const token = jwt.sign({ id: result._id }, config.tokenKey, { expiresIn:  60 * 60 * 24 })
                 resolve({
                     code: '200',
                     data: {
