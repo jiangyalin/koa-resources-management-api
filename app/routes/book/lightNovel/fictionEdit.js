@@ -9,6 +9,7 @@ router.post('/', async (ctx, next) => {
     let book = {
         bookName: parameter.bookName, // 书籍名称
         area: parameter.area, // 地区
+        library: parameter.library, // 文库
         releaseTime: parameter.releaseTime, // 发售时间
         author: parameter.author, // 作者
         illustrator: parameter.illustrator, // 插画师

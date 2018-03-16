@@ -13,7 +13,7 @@ router.get('/', async (ctx, next) => {
     const Model = Book // 模板
     const populate = [{ path: 'cover' }, { path: 'bookFile' }]
     const criteria = { is_deleted: 1, $or: [{ bookName: qs }, { author: qs }] } // 查询条件
-    const fields = { bookName: 2, area: 1, releaseTime: -1, author: 1, illustrator: 1, cover: 1, bookFile: 1, introduction: 1 } // 待返回的字段
+    const fields = { bookName: 2, area: 1, library: 1, releaseTime: -1, author: 1, illustrator: 1, cover: 1, bookFile: 1, introduction: 1 } // 待返回的字段
     const options = { sort: [{ releaseTime: -1 }] } // 排序
 
     const model = new Promise((resolve, reject) => {

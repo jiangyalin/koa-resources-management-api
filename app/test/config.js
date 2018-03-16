@@ -6,5 +6,5 @@ module.exports = {
         key: 'personalDB',
         maxAge: 2592000000
     },
-    mongodb: 'mongodb://www.jiangyalin.com:27017/acgnDB'
+    mongodb: 'mongodb://localhost:27017/acgnDB'
 }
