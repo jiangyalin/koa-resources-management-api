@@ -4,6 +4,7 @@ import fictionInfo from './fictionInfo'
 import fictionAdd from './fictionAdd'
 import fictionDelete from './fictionDelete'
 import fictionEdit from './fictionEdit'
+import fictionAllName from './fictionAllName'
 
 const router = Router()
 
@@ -21,6 +22,9 @@ router.use('/fictionInfo', fictionEdit.routes(), fictionEdit.allowedMethods())
 
 // 删除书籍
 router.use('/fiction', fictionDelete.routes(), fictionDelete.allowedMethods())
+
+// 获取所有书籍名称列表
+router.use('/fictionAllName', fictionAllName.routes(), fictionAllName.allowedMethods())
 
 export default router
 

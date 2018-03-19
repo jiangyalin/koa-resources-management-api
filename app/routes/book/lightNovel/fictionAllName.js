@@ -3,30 +3,34 @@ import Book from './../../../models/book/book'
 
 const router = Router()
 
-// 删除书籍
-router.delete('/', async (ctx, next) => {
-    const parameter = ctx.query
-
-    const criteria = { is_deleted: 1, $or: [{ _id: parameter.id }] } // 查询条件
-    const doc = { is_deleted: 0 } // 修改的字段
-    const options = { sort: [{ createTime: -1 }] } // 排序
+// 获取书籍详情
+router.get('/', async (ctx, next) => {
+    const criteria = { is_deleted: 1 } // 查询条件
+    const populate = []
+    const fields = { bookName: 1 } // 待返回的字段
+    const options = { sort: [{ bookName: 1 }] } // 排序
 
     const model = new Promise((resolve, reject) => {
-        Book.update(criteria, doc, options, (err, result) => {
+        Book.find(criteria, fields, options, (err, result) => {
             if (err) {
                 reject({
                     code: '500',
                     data: {}
                 })
-            } else {
+            } else if (result !== null) {
                 resolve({
                     code: '200',
                     data: {
-                        ...result._doc
+                        book: result
                     }
                 })
+            } else {
+                reject({
+                    code: '401',
+                    data: {}
+                })
             }
-        })
+        }).populate(populate)
     })
 
     const data = await model.then((resolve) => {

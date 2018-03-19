@@ -1,5 +1,5 @@
 import Router from 'koa-router'
-import Book from './../../../models/book'
+import Book from './../../../models/book/book'
 
 const router = Router()
 
@@ -10,11 +10,8 @@ router.post('/', async (ctx, next) => {
         bookName: parameter.bookName, // 书籍名称
         area: parameter.area, // 地区
         library: parameter.library, // 文库
-        releaseTime: parameter.releaseTime, // 发售时间
         author: parameter.author, // 作者
         illustrator: parameter.illustrator, // 插画师
-        bookFile: parameter.fileId, // 文件id
-        cover: parameter.coverId, // 封面id
         introduction: parameter.introduction // 简介
     }
 
