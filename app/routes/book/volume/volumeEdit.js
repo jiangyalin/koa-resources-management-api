@@ -1,18 +1,25 @@
 import Router from 'koa-router'
-import Book from './../../../models/book/book'
+import Volume from './../../../models/book/volume'
+
 
 const router = Router()
 
-// 删除书籍
-router.delete('/', async (ctx, next) => {
-    const parameter = ctx.query
+// 编辑卷
+router.post('/', async (ctx, next) => {
+    const parameter = ctx.request.body
+    let volume = {
+        name: parameter.name, // 卷名称
+        releaseTime: parameter.releaseTime, // 发售时间
+        cover: parameter.cover, // 封面
+        file: parameter.file // 文件
+    }
 
-    const criteria = { is_deleted: 1, $or: [{ _id: parameter.id }] } // 查询条件
-    const doc = { is_deleted: 0 } // 修改的字段
+    const criteria = { is_deleted: 1, $or: [{ sequence: parameter.sequence }] } // 查询条件
+    const doc = volume // 修改的字段
     const options = { sort: [{ createTime: -1 }] } // 排序
 
     const model = new Promise((resolve, reject) => {
-        Book.update(criteria, doc, options, (err, result) => {
+        Volume.update(criteria, doc, options, (err, result) => {
             if (err) {
                 reject({
                     code: '500',

@@ -15,7 +15,8 @@ router.get('/', async (ctx, next) => {
             if (err) {
                 reject({
                     code: '500',
-                    data: {}
+                    data: {},
+                    message: err.message
                 })
             } else if (result !== null) {
                 resolve({

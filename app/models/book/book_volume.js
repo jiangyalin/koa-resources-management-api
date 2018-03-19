@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 
 // 书籍卷关系模板
 const BookVolumeSchema = new Schema({
-    sequence: { type: String, default: 1 }, // 序列号
+    sequence: { type: Number, default: 1 }, // 序列号
     book: { type: Schema.Types.ObjectId, ref: 'book' }, // 书
     volume: { type: Schema.Types.ObjectId, ref: 'volume' }, // 券
     createTime: { type: Date, default: Date.now }, // 创建时间

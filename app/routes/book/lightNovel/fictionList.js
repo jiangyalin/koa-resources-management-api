@@ -23,7 +23,8 @@ router.get('/', async (ctx, next) => {
                     code: '500',
                     data: {
                         content: []
-                    }
+                    },
+                    message: err.message
                 })
             } else {
                 resolve({

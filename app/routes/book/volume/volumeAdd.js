@@ -14,60 +14,125 @@ router.post('/', async (ctx, next) => {
         cover: parameter.cover, // 封面
         file: parameter.file // 文件
     }
-    console.log('volume', volume)
+
     const model = new Promise((resolve, reject) => {
-        Volume.create(volume, async (err, result) => {
-            if (err) {
+        BookVolume.find({ is_deleted: 1, sequence: Number(parameter.sequence), book: parameter.book }, { createTime: 1 }, { sort: [{ createTime: -1 }] }, async (error, result) => {
+            if (error) {
                 reject({
                     code: '500',
                     data: {
-                        volume: null
+                        volume: []
                     },
                     message: err.message
                 })
             }
 
-            const bookVolume = {
-                book: parameter.book, // 书
-                volume: result._id // 卷
+            if (result.length === 0) {
+                const model2 = new Promise((resolve, reject) => {
+                    Volume.create(volume, async (err, result) => {
+                        if (err) {
+                            reject({
+                                code: '500',
+                                data: {
+                                    volume: null
+                                },
+                                message: err.message
+                            })
+                        }
+
+                        const bookVolume = {
+                            sequence: Number(parameter.sequence), // 序列号
+                            book: parameter.book, // 书
+                            volume: result._id // 卷
+                        }
+
+                        const model3 = new Promise((resolve, reject) => {
+                            BookVolume.create(bookVolume, async (err, result) => {
+                                if (err) {
+                                    reject({
+                                        code: '500',
+                                        data: {},
+                                        message: err.message
+                                    })
+                                }
+
+                                resolve({
+                                    code: '200',
+                                    data: {
+                                        ...result._doc
+                                    }
+                                })
+                            })
+                        })
+
+                        const data3 = await model3.then((resolve) => {
+                            return resolve
+                        }).catch((reject) => {
+                            return reject
+                        })
+
+                        resolve(data3)
+                    })
+                })
+
+                const data2 = await model2.then((resolve) => {
+                    return resolve
+                }).catch((reject) => {
+                    return reject
+                })
+
+                resolve(data2)
             }
 
-            const model2 = new Promise((resolve, reject) => {
-                BookVolume.create(bookVolume, async (err, result) => {
-                    if (err) {
-                        reject({
-                            code: '500',
-                            data: {},
-                            message: err.message
-                        })
-                    } else {
+            if (result.length > 0) {
+
+                const bookVolume = {
+                    sequence: Number(parameter.sequence), // 序列号
+                    book: parameter.book, // 书
+                    volume: result[0]._id // 卷
+                }
+
+                const criteria = { is_deleted: 1, $or: [{ _id: result[0]._id }] } // 查询条件
+                const options = { sort: [{ createTime: -1 }] } // 排序
+
+                const model3 = new Promise((resolve, reject) => {
+                    BookVolume.update(criteria, bookVolume, options, (err, result) => {
+                        if (err) {
+                            reject({
+                                code: '500',
+                                data: {},
+                                message: err.message
+                            })
+                        }
+
                         resolve({
                             code: '200',
                             data: {
                                 ...result._doc
                             }
                         })
-                    }
+                    })
                 })
-            })
 
-            const data2 = await model2.then((resolve) => {
-                return resolve
-            }).catch((reject) => {
-                return reject
-            })
+                const data3 = await model3.then((resolve) => {
+                    return resolve
+                }).catch((reject) => {
+                    return reject
+                })
 
-            resolve(data2)
+                resolve(data3)
+            }
         })
     })
 
-    const date = await model.then((resolve) => {
+    const data = await model.then((resolve) => {
         return resolve
     }).catch((reject) => {
         return reject
     })
 
-    ctx.body = date
+
+    ctx.body = data
 })
 
 export default router

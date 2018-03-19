@@ -1,29 +1,28 @@
 import Router from 'koa-router'
-import Book from './../../../models/book/book'
+import Volume from './../../../models/book/volume'
 
 const router = Router()
 
-// 删除书籍
-router.delete('/', async (ctx, next) => {
-    const parameter = ctx.query
-
-    const criteria = { is_deleted: 1, $or: [{ _id: parameter.id }] } // 查询条件
-    const doc = { is_deleted: 0 } // 修改的字段
-    const options = { sort: [{ createTime: -1 }] } // 排序
-
+// 获取文库列表
+router.get('/', async (ctx, next) => {
+    const Model = Volume // 模板
+    const criteria = { is_deleted: 1 } // 查询条件
+    let fields = { name: 1 } // 待返回的字段
+    const options = { sort: [{ name: -1 }] } // 排序
     const model = new Promise((resolve, reject) => {
-        Book.update(criteria, doc, options, (err, result) => {
-            if (err) {
+        Model.find(criteria, fields, options, (error, result) => {
+            if (error) {
                 reject({
                     code: '500',
-                    data: {},
-                    message: err.message
+                    data: {
+                        library: []
+                    }
                 })
             } else {
                 resolve({
                     code: '200',
                     data: {
-                        ...result._doc
+                        length: result.length
                     }
                 })
             }
