@@ -19,14 +19,14 @@ router.delete('/', async (ctx, next) => {
                     data: {},
                     message: err.message
                 })
-            } else {
-                resolve({
-                    code: '200',
-                    data: {
-                        ...result._doc
-                    }
-                })
             }
+            
+            resolve({
+                code: '200',
+                data: {
+                    ...result._doc
+                }
+            })
         })
     })
 

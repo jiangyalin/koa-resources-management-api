@@ -12,11 +12,13 @@ router.post('/', async (ctx, next) => {
         name: parameter.name, // 卷名称
         releaseTime: parameter.releaseTime, // 发售时间
         cover: parameter.cover, // 封面
-        file: parameter.file // 文件
+        file: parameter.file, // 文件
+        book: parameter.book // 书
     }
 
+    // 验证此书下是否存在相同的序列号
     const model = new Promise((resolve, reject) => {
-        BookVolume.find({ is_deleted: 1, sequence: Number(parameter.sequence), book: parameter.book }, { createTime: 1 }, { sort: [{ createTime: -1 }] }, async (error, result) => {
+        BookVolume.find({ is_deleted: 1, sequence: Number(parameter.sequence), book: parameter.book }, { createTime: 1, volume: 1 }, { sort: [{ createTime: -1 }] }, async (error, result) => {
             if (error) {
                 reject({
                     code: '500',
@@ -28,6 +30,7 @@ router.post('/', async (ctx, next) => {
             }
 
             if (result.length === 0) {
+                // 不存在则添加此卷并且添加关联关系
                 const model2 = new Promise((resolve, reject) => {
                     Volume.create(volume, async (err, result) => {
                         if (err) {
@@ -40,6 +43,7 @@ router.post('/', async (ctx, next) => {
                             })
                         }
 
+                        // 添加关联关系
                         const bookVolume = {
                             sequence: Number(parameter.sequence), // 序列号
                             book: parameter.book, // 书
@@ -85,18 +89,12 @@ router.post('/', async (ctx, next) => {
             }
 
             if (result.length > 0) {
-
-                const bookVolume = {
-                    sequence: Number(parameter.sequence), // 序列号
-                    book: parameter.book, // 书
-                    volume: result[0]._id // 卷
-                }
-
-                const criteria = { is_deleted: 1, $or: [{ _id: result[0]._id }] } // 查询条件
+                // 存在则更改卷相同此书下形同序列号的卷信息
+                const criteria = { is_deleted: 1, _id: result[0].volume } // 查询条件
                 const options = { sort: [{ createTime: -1 }] } // 排序
 
                 const model3 = new Promise((resolve, reject) => {
-                    BookVolume.update(criteria, bookVolume, options, (err, result) => {
+                    Volume.update(criteria, volume, options, (err, result) => {
                         if (err) {
                             reject({
                                 code: '500',
