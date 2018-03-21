@@ -1,18 +1,18 @@
 import Router from 'koa-router'
-import Book from './../../../models/book/book'
+import File from './../../models/file'
 
 const router = Router()
 
-// 删除书籍
+// 删除文件
 router.delete('/', async (ctx, next) => {
     const parameter = ctx.query
 
-    const criteria = { is_deleted: 1, $or: [{ _id: parameter.id }] } // 查询条件
+    const criteria = { is_deleted: 1, _id: parameter.id } // 查询条件
     const doc = { is_deleted: 0 } // 修改的字段
     const options = { sort: [{ createTime: -1 }] } // 排序
-
+    console.log('ppp');
     const model = new Promise((resolve, reject) => {
-        Book.update(criteria, doc, options, (err, result) => {
+        File.update(criteria, doc, options, (err, result) => {
             if (err) {
                 reject({
                     code: '500',
@@ -20,7 +20,7 @@ router.delete('/', async (ctx, next) => {
                     message: err.message
                 })
             }
-            
+
             resolve({
                 code: '200',
                 data: {

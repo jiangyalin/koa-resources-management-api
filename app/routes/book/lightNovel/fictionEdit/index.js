@@ -1,5 +1,5 @@
 import Router from 'koa-router'
-import Book from './../../../models/book/book'
+import FictionEdit from './model'
 
 const router = Router()
 
@@ -19,32 +19,14 @@ router.post('/', async (ctx, next) => {
     const doc = book // 修改的字段
     const options = { sort: [{ createTime: -1 }] } // 排序
 
-    const model = new Promise((resolve, reject) => {
-        Book.update(criteria, doc, options, (err, result) => {
-            if (err) {
-                reject({
-                    code: '500',
-                    data: {},
-                    message: err.message
-                })
-            } else {
-                resolve({
-                    code: '200',
-                    data: {
-                        ...result._doc
-                    }
-                })
-            }
-        })
-    })
+    const model = FictionEdit(criteria, doc, options)
 
-    const data = await model.then((resolve) => {
+    ctx.body = await model.then((resolve) => {
         return resolve
     }).catch((reject) => {
         return reject
     })
-
-    ctx.body = data
+    
 })
 
 export default router

@@ -1,0 +1,24 @@
+import Book from './../../../../models/book/book'
+
+export default (objects) => {
+    return new Promise((resolve, reject) => {
+        Book.create(objects, (err, result) => {
+            if (err) {
+                reject({
+                    code: '500',
+                    data: {
+                        book: []
+                    },
+                    message: err.message
+                })
+            } else {
+                resolve({
+                    code: '200',
+                    data: {
+                        ...result._doc
+                    }
+                })
+            }
+        })
+    })
+}

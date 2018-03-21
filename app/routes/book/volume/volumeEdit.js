@@ -8,7 +8,7 @@ const router = Router()
 router.post('/', async (ctx, next) => {
     const parameter = ctx.request.body
 
-    // 删除卷表中同一书下同一序列号的数据
+    // 删除卷表中同一书下同一序列号的数据（真删）
     const model = new Promise((resolve, reject) => {
         Volume.remove({ is_deleted: 1, sequence: parameter.sequence, book: parameter.book }, async (err, result) => {
             if (err) {
@@ -19,7 +19,7 @@ router.post('/', async (ctx, next) => {
                 })
             }
 
-            // 删除卷表-书关系表中同一书下同一序列号的数据
+            // 删除卷表-书关系表中同一书下同一序列号的数据（真删）
             const model2 = new Promise((resolve, reject) => {
                 BookVolume.remove({ is_deleted: 1, sequence: parameter.sequence, book: parameter.book }, async (err, result) => {
                     if (err) {

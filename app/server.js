@@ -28,7 +28,7 @@ app.use(staticCache(path.join(__dirname, './public'), {
 app.use(errorHandle)
 
 const secret = config.tokenKey
-app.use(jwt({ secret }).unless({ path: [/\/login/] }))
+app.use(jwt({ secret }).unless({ path: [/\/login/, /\/uploadDelete/] }))
 
 app.use(routes.routes(), routes.allowedMethods())
 
