@@ -1,6 +1,6 @@
 import config from './../../../config'
 import jwt from 'jsonwebtoken'
-import Account from './../../../models/account'
+import Account from './../../../models/user/account'
 
 export default (criteria, fields, options, populate) => {
     return new Promise((resolve, reject) => {

@@ -1,4 +1,4 @@
-import Account from './../../../../models/account'
+import Account from './../../../../models/user/account'
 
 export default (objects) => {
     return new Promise((resolve, reject) => {

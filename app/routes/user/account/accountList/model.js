@@ -1,4 +1,4 @@
-import Account from './../../../../models/account'
+import Account from './../../../../models/user/account'
 import PageList from './../../../../models/pageList'
 
 export default (page, pageSize, populate, criteria, fields, options) => {
