@@ -1,33 +1,14 @@
 import fs from 'fs'
-import Router from 'koa-router'
-import multiparty from 'multiparty'
-import File from './../../models/file'
+import File from './../../../models/file'
 
-const router = Router()
-
-// 上传
-router.post('/', async (ctx, next) => {
-    const parameter = ctx.request.body
-
-    let data = {}
-
-    const path = '/avatar/'
-    var base64Data = parameter.avatar.replace(/^data:image\/\w+;base64,/, "")
-    var dataBuffer = new Buffer(base64Data, 'base64')
-
-    const fileFlow = new Promise((resolve, reject) => {
-        console.log('sss')
-
+export default (path, dataBuffer) => {
+    return new Promise((resolve, reject) => {
         let inputFile = {}
         const fileSuffixName = '.png'
         inputFile.originalFilename = Date.now() + fileSuffixName
         const dstPath = './app/public' + path + inputFile.originalFilename
 
-        console.log('inputFile', inputFile)
-        console.log('dstPath', dstPath)
-
         fs.writeFile(dstPath, dataBuffer, async (err) => {
-            console.log('ppp')
             if (err) reject('rename error: ' + err)
 
             const fileInfo = {
@@ -45,14 +26,14 @@ router.post('/', async (ctx, next) => {
                             code: '500',
                             data: {}
                         })
-                    } else {
-                        resolve({
-                            code: '200',
-                            data: {
-                                id: result._id
-                            }
-                        })
                     }
+                    
+                    resolve({
+                        code: '200',
+                        data: {
+                            id: result._id
+                        }
+                    })
                 })
             })
 
@@ -63,20 +44,8 @@ router.post('/', async (ctx, next) => {
             })
 
             resolve(fileDate)
-
-            ctx.body = fileDate
+            
         })
 
     })
-
-    data = await fileFlow.then((resolve) => {
-        return resolve
-    }).catch((reject) => {
-        return reject
-    })
-
-    ctx.body = data
-})
-
-export default router
-
+}

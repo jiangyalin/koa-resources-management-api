@@ -4,6 +4,7 @@ import login from './login'
 import book from './book'
 import upload from './upload'
 import user from './user'
+import file from './file'
 import yaoXiao from './yao-xiao'
 
 const router = Router()
@@ -22,6 +23,9 @@ router.use('/api', upload.routes(), upload.allowedMethods())
 
 // 用户
 router.use('/api', user.routes(), user.allowedMethods())
+
+// 文件
+router.use('/api', file.routes(), file.allowedMethods())
 
 // 姚逍
 router.use('/api', yaoXiao.routes(), yaoXiao.allowedMethods())

@@ -1,24 +1,12 @@
 import fs from 'fs'
-import Router from 'koa-router'
-import multiparty from 'multiparty'
-import File from './../../models/file'
+import File from './../../../models/file'
 
-const router = Router()
-
-// 上传
-router.post('/', async (ctx, next) => {
-    let data = {}
-    // 生成multiparty对象，并配置上传目标路径
-    const path = '/books/'
-    const form = new multiparty.Form({
-        maxFieldsSize: 100,
-        uploadDir: './app/public' + path
-    })
-    const fileFlow = new Promise((resolve, reject) => {
+export default (ctx, path, form) => {
+    return new Promise((resolve, reject) => {
         form.parse(ctx.req, async (err, fields, files) => {
             if (err) reject('parse error: ' + err)
 
-            let inputFile = files.file[0]
+            let inputFile = files.img[0]
             const fileSuffixName = inputFile.originalFilename.substring(inputFile.originalFilename.lastIndexOf('.'))
             inputFile.originalFilename = Date.now() + fileSuffixName
             const uploadedPath = inputFile.path
@@ -32,7 +20,7 @@ router.post('/', async (ctx, next) => {
 
                     const fileInfo = {
                         name: inputFile.originalFilename, // 文件名称
-                        type: 'book', // 文件类型
+                        type: 'image', // 文件类型
                         suffixName: inputFile.headers['content-type'], // 文件后缀名
                         path: path,
                         size: inputFile.size
@@ -45,14 +33,14 @@ router.post('/', async (ctx, next) => {
                                     code: '500',
                                     data: {}
                                 })
-                            } else {
-                                resolve({
-                                    code: '200',
-                                    data: {
-                                        id: result._id
-                                    }
-                                })
                             }
+
+                            resolve({
+                                code: '200',
+                                data: {
+                                    id: result._id
+                                }
+                            })
                         })
                     })
 
@@ -69,7 +57,7 @@ router.post('/', async (ctx, next) => {
                 })
             })
 
-            data = await file.then((resolve) => {
+            const data = await file.then((resolve) => {
                 return resolve
             }).catch((reject) => {
                 return reject
@@ -80,15 +68,4 @@ router.post('/', async (ctx, next) => {
         })
 
     })
-
-    data = await fileFlow.then((resolve) => {
-        return resolve
-    }).catch((reject) => {
-        return reject
-    })
-
-    ctx.body = data
-})
-
-export default router
-
+}
