@@ -2,7 +2,7 @@ import Volume from './../../../../models/book/volume'
 
 export default (criteria) => {
     return new Promise((resolve, reject) => {
-        Volume.remove(criteria, async (err, result) => {
+        Volume.update(criteria, { is_deleted: 0 }, { sort: [{ createTime: -1 }] }, async (err, result) => {
             if (err) {
                 reject({
                     code: '500',
@@ -13,9 +13,10 @@ export default (criteria) => {
 
             resolve({
                 code: '200',
-                data: {}
+                data: {
+                    ...result._doc
+                }
             })
-            
         })
     })
 }

@@ -11,7 +11,7 @@ export default (criteria) => {
                 })
             }
 
-            reject({
+            resolve({
                 code: '200',
                 data: {}
             })
