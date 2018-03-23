@@ -20,7 +20,7 @@ export default (ctx, path, form) => {
 
                     const fileInfo = {
                         name: inputFile.originalFilename, // 文件名称
-                        type: '*', // 文件类型
+                        type: 'book', // 文件类型
                         suffixName: inputFile.headers['content-type'], // 文件后缀名
                         path: path,
                         size: inputFile.size

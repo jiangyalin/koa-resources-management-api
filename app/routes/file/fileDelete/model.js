@@ -1,8 +1,8 @@
 import File from './../../../models/file'
 
-export default (criteria, doc, options) => {
+export default (criteria) => {
     return new Promise((resolve, reject) => {
-        File.update(criteria, doc, options, (err, result) => {
+        File.update(criteria, { is_deleted: 0 }, { sort: [{ createTime: -1 }] }, (err, result) => {
             if (err) {
                 reject({
                     code: '500',

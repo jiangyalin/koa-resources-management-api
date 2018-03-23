@@ -1,6 +1,6 @@
 import BookVolume from './../../../../models/book/book_volume'
 
-export default (sequence, book, populate, criteria, fields, options) => {
+export default (sequence, book) => {
     return new Promise((resolve, reject) => {
         BookVolume.find({ is_deleted: 1, sequence: Number(sequence), book: book }, { volume: 1 }, { sort: [{ createTime: -1 }] }, async (err, result) => {
             if (err) {
@@ -19,6 +19,6 @@ export default (sequence, book, populate, criteria, fields, options) => {
                     bookVolume: result
                 }
             })
-        })
+        }).populate([{ path: 'volume' }])
     })
 }

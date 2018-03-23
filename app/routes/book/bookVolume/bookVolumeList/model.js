@@ -12,6 +12,7 @@ export default (page, pageSize, populate, criteria, fields, options) => {
                     }
                 })
             }
+            console.log('ss', $page)
 
             resolve({
                 code: '200',

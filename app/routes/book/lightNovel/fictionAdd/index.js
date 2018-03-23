@@ -11,6 +11,7 @@ router.post('/', async (ctx, next) => {
         area: parameter.area, // 地区
         library: parameter.library, // 文库
         author: parameter.author, // 作者
+        cover: parameter.cover, // 封面
         illustrator: parameter.illustrator, // 插画师
         introduction: parameter.introduction // 简介
     }
