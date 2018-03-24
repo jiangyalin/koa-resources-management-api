@@ -4,6 +4,7 @@ import volumeAdd from './volumeAdd'
 import volumeInfo from './volumeInfo'
 import volumeEdit from './volumeEdit'
 import volumeDelete from './volumeDelete'
+import volumeAllName from './volumeAllName'
 
 const router = Router()
 
@@ -21,6 +22,9 @@ router.use('/volumeInfo', volumeInfo.routes(), volumeInfo.allowedMethods())
 
 // 编辑卷
 router.use('/volumeInfo', volumeEdit.routes(), volumeEdit.allowedMethods())
+
+// 获取所有卷名称
+router.use('/volumeAllName', volumeAllName.routes(), volumeAllName.allowedMethods())
 
 export default router
 
