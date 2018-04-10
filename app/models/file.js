@@ -8,6 +8,7 @@ const FileSchema = new Schema({
     suffixName: { type: String, default: null }, // 文件后缀名
     path: { type: String, default: null }, // 文件路径
     size: { type: String, default: null }, // 文件大小
+    content: { type: String, default: null }, // 内容
     createTime: { type: Date, default: Date.now }, // 创建时间
     is_deleted: { type: Number, default: 1 } // 删除状态
 })

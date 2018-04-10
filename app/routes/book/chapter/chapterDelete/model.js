@@ -10,7 +10,6 @@ export default (criteria) => {
                     message: err.message
                 })
             }
-            console.log('result', result)
 
             resolve({
                 code: '200',

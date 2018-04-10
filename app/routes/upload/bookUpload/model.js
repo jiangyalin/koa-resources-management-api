@@ -1,4 +1,5 @@
 import fs from 'fs'
+import mammoth from 'mammoth'
 import File from './../../../models/file'
 
 export default (ctx, path, form) => {
@@ -18,40 +19,79 @@ export default (ctx, path, form) => {
 
                     if (err) reject('rename error: ' + err)
 
-                    const fileInfo = {
-                        name: inputFile.originalFilename, // 文件名称
-                        type: 'book', // 文件类型
-                        suffixName: inputFile.headers['content-type'], // 文件后缀名
-                        path: path,
-                        size: inputFile.size
+                    if (inputFile.headers['content-type'] !== 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+                        resolve({
+                            code: '501',
+                            data: {},
+                            message: '文件格式错误'
+                        })
                     }
-                    
-                    const model = new Promise((resolve, reject) => {
-                        File.create(fileInfo, (err, result) => {
-                            if (err) {
-                                reject({
-                                    code: '500',
-                                    data: {}
-                                })
+                    else {
+                        const content = new Promise((resolve, reject) => {
+                            const options = {
+                                styleMap: [
+                                    "p[style-name='Section Title'] => h1:fresh",
+                                    "p[style-name='Subsection Title'] => h2:fresh"
+                                ],
+                                includeDefaultStyleMap: true, // 保留默认样式映射
+                                includeEmbeddedStyleMap: false, // 停用附加样式映射
+                                ignoreEmptyParagraphs: false // 保留空白段落
                             }
+                            mammoth.convertToHtml({ path: './app/public' + path + inputFile.originalFilename }, options)
+                                .then((result) => {
+                                    resolve(result.value)
+                                }).done()
 
-                            resolve({
-                                code: '200',
-                                data: {
-                                    id: result._id
+                            // docx4js.load('./app/public' + path + inputFile.originalFilename).then(docx => {
+                            //     console.log('docx', docx)
+                            // })
+
+                            // docx4js.create().then(docx => {
+                            //     docx.save("~/new.docx")
+                            // })
+                        })
+
+                        const html = await content.then((resolve) => {
+                            return resolve
+                        }).catch((reject) => {
+                            return reject
+                        })
+
+                        const fileInfo = {
+                            name: inputFile.originalFilename, // 文件名称
+                            type: 'book', // 文件类型
+                            suffixName: inputFile.headers['content-type'], // 文件后缀名
+                            path: path,
+                            content: html,
+                            size: inputFile.size
+                        }
+
+                        const model = new Promise((resolve, reject) => {
+                            File.create(fileInfo, (err, result) => {
+                                if (err) {
+                                    reject({
+                                        code: '500',
+                                        data: {}
+                                    })
                                 }
+
+                                resolve({
+                                    code: '200',
+                                    data: {
+                                        id: result._id
+                                    }
+                                })
                             })
                         })
-                    })
 
-                    const fileDate = await model.then((resolve) => {
-                        return resolve
-                    }).catch((reject) => {
-                        return reject
-                    })
+                        const fileDate = await model.then((resolve) => {
+                            return resolve
+                        }).catch((reject) => {
+                            return reject
+                        })
 
-                    resolve(fileDate)
-
+                        resolve(fileDate)
+                    }
                 })
             })
 
