@@ -3,6 +3,7 @@ import basis from './basis'
 import login from './login'
 import book from './book'
 import upload from './upload'
+import download from './download'
 import user from './user'
 import file from './file'
 import yaoXiao from './yao-xiao'
@@ -20,6 +21,9 @@ router.use('/api', book.routes(), book.allowedMethods())
 
 // 上传
 router.use('/api', upload.routes(), upload.allowedMethods())
+
+// 下载
+router.use('/api', download.routes(), download.allowedMethods())
 
 // 用户
 router.use('/api', user.routes(), user.allowedMethods())

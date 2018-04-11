@@ -29,7 +29,7 @@ app.use(errorHandle)
 
 // token
 const secret = config.tokenKey
-app.use(jwt({ secret }).unless({ path: [/^\/api\/login/, /\/api\/uploadDelete/, /\/books/] }))
+app.use(jwt({ secret }).unless({ path: [/^\/api\/login/, /\/api\/uploadDelete/, /\/api\/download/] }))
 
 app.use(routes.routes(), routes.allowedMethods())
 

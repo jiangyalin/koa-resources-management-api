@@ -12,6 +12,26 @@ router.post('/', async (ctx, next) => {
     const parameter = ctx.request.body
 
     const text = HtmlToText.fromString(parameter.content, {
+        format: {
+            heading: (elem, fn, options) => {
+                var h = fn(elem.children, options);
+                return '' + h.replace(/(^\s*)|(\s*$)/g, '') + '\r\n';
+            },
+            paragraph: (elem, fn, options) => {
+                var h = fn(elem.children, options);
+                if (h.substring(0, 1) === ' ' || h.substring(0, 1) === '    ' || h.substring(0, 1) === ' ') {
+                    let index = 0
+                    for (let i = 0; i < h.length; i++) {
+                        if (h.substring(i, i + 1) !== ' ' && h.substring(i, i + 1) !== '    ' && h.substring(i, i + 1) !== ' ') {
+                            index = i
+                            i = h.length
+                        }
+                    }
+                    h = '    ' + h.substring(index, h.length)
+                }
+                return h + '\r\n';
+            }
+        },
         wordwrap: 80,
         preserveNewlines: true, // 保留换行符
         uppercaseHeadings: false, // 标题大写
