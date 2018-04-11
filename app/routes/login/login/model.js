@@ -15,6 +15,7 @@ export default (criteria, fields, options, populate) => {
                 })
             } else if (result !== null) {
                 const token = jwt.sign({id: result._id}, config.tokenKey, {expiresIn: 60 * 60 * 24})
+                log.info(__filename, '登录成功:' + JSON.stringify(criteria))
                 resolve({
                     code: '200',
                     data: {
