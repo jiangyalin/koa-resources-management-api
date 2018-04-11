@@ -1,11 +1,13 @@
 import config from './../../../config'
 import jwt from 'jsonwebtoken'
 import Account from './../../../models/user/account'
+import log from './../../../log'
 
 export default (criteria, fields, options, populate) => {
     return new Promise((resolve, reject) => {
         Account.findOne(criteria, fields, options, (err, result) => {
             if (err) {
+                log.warn(JSON.stringify(err))
                 reject({
                     code: '500',
                     data: {},
@@ -21,6 +23,7 @@ export default (criteria, fields, options, populate) => {
                     }
                 })
             } else {
+                log.info('登录失败:' + JSON.stringify(criteria))
                 reject({
                     code: '401',
                     data: {},

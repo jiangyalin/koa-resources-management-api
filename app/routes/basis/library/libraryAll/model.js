@@ -1,9 +1,11 @@
 import Library from './../../../../models/library'
+import log from './../../../../log'
 
 export default (criteria, fields, options) => {
     return new Promise((resolve, reject) => {
         Library.find(criteria, fields, options, (err, result) => {
             if (err) {
+                log.warn(JSON.stringify(err))
                 reject({
                     code: '500',
                     data: {

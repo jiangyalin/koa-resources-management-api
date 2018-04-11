@@ -1,10 +1,11 @@
 import File from './../../../models/file'
+import log from './../../../log'
 
 export default (criteria, fields, options, populate) => {
     return new Promise((resolve, reject) => {
         File.findOne(criteria, fields, options, (err, result) => {
             if (err) {
-                console.log('err', err)
+                log.warn(JSON.stringify(err))
                 reject({
                     code: '500',
                     data: {},
@@ -18,6 +19,7 @@ export default (criteria, fields, options, populate) => {
                     }
                 })
             } else {
+                log.warn('文件不存在' + JSON.stringify(criteria))
                 reject({
                     code: '401',
                     data: {}

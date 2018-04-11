@@ -1,6 +1,7 @@
 import fs from 'fs'
 import mammoth from 'mammoth'
 import File from './../../../models/file'
+import log from './../../../log'
 
 export default (ctx, path, form) => {
     return new Promise((resolve, reject) => {
@@ -16,10 +17,13 @@ export default (ctx, path, form) => {
             // 重命名为真实文件名
             const file = new Promise((resolve, reject) => {
                 fs.rename(uploadedPath, dstPath, async (err) => {
-
-                    if (err) reject('rename error: ' + err)
+                    if (err) {
+                        log.warn('book重命名: ' + JSON.stringify(err))
+                        reject('rename error: ' + err)
+                    }
 
                     if (inputFile.headers['content-type'] !== 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+                        log.warn('文件格式错误' + JSON.stringify(err))
                         resolve({
                             code: '501',
                             data: {},
@@ -41,14 +45,6 @@ export default (ctx, path, form) => {
                                 .then((result) => {
                                     resolve(result.value)
                                 }).done()
-
-                            // docx4js.load('./app/public' + path + inputFile.originalFilename).then(docx => {
-                            //     console.log('docx', docx)
-                            // })
-
-                            // docx4js.create().then(docx => {
-                            //     docx.save("~/new.docx")
-                            // })
                         })
 
                         const html = await content.then((resolve) => {
@@ -69,6 +65,7 @@ export default (ctx, path, form) => {
                         const model = new Promise((resolve, reject) => {
                             File.create(fileInfo, (err, result) => {
                                 if (err) {
+                                    log.warn(JSON.stringify(err))
                                     reject({
                                         code: '500',
                                         data: {}

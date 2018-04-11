@@ -1,5 +1,6 @@
 import fs from 'fs'
 import File from './../../../models/file'
+import log from './../../../log'
 
 export default (path, dataBuffer) => {
     return new Promise((resolve, reject) => {
@@ -9,7 +10,10 @@ export default (path, dataBuffer) => {
         const dstPath = './app/public' + path + inputFile.originalFilename
 
         fs.writeFile(dstPath, dataBuffer, async (err) => {
-            if (err) reject('rename error: ' + err)
+            if (err) {
+                log.warn('avatar创建文件: ' + JSON.stringify(err))
+                reject('rename error: ' + err)
+            }
 
             const fileInfo = {
                 name: inputFile.originalFilename, // 文件名称
@@ -22,6 +26,7 @@ export default (path, dataBuffer) => {
             const model = new Promise((resolve, reject) => {
                 File.create(fileInfo, (err, result) => {
                     if (err) {
+                        log.warn(JSON.stringify(err))
                         reject({
                             code: '500',
                             data: {}

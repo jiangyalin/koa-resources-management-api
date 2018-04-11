@@ -1,5 +1,6 @@
 import fs from 'fs'
 import File from './../../../models/file'
+import log from './../../../log'
 
 export default (ctx, path, form) => {
     return new Promise((resolve, reject) => {
@@ -15,8 +16,10 @@ export default (ctx, path, form) => {
             // 重命名为真实文件名
             const file = new Promise((resolve, reject) => {
                 fs.rename(uploadedPath, dstPath, async (err) => {
-
-                    if (err) reject('rename error: ' + err)
+                    if (err) {
+                        log.warn('file重命名: ' + JSON.stringify(err))
+                        reject('rename error: ' + err)
+                    }
 
                     const fileInfo = {
                         name: inputFile.originalFilename, // 文件名称
@@ -29,6 +32,7 @@ export default (ctx, path, form) => {
                     const model = new Promise((resolve, reject) => {
                         File.create(fileInfo, (err, result) => {
                             if (err) {
+                                log.warn(JSON.stringify(err))
                                 reject({
                                     code: '500',
                                     data: {}

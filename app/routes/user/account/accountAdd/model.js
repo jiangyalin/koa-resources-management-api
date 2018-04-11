@@ -1,9 +1,11 @@
 import Account from './../../../../models/user/account'
+import log from './../../../../log'
 
 export default (objects) => {
     return new Promise((resolve, reject) => {
         Account.create(objects, (err, result) => {
             if (err) {
+                log.warn(JSON.stringify(err))
                 reject({
                     code: '500',
                     data: {

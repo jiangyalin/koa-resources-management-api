@@ -9,6 +9,7 @@ import koaBody from 'koa-body'
 import jwt from 'koa-jwt'
 import config from './config'
 import errorHandle from './token'
+import log from './log'
 import routes from './routes'
 const app = new Koa()
 
@@ -27,9 +28,12 @@ app.use(staticCache(path.join(__dirname, './public'), {
 
 app.use(errorHandle)
 
-// token
 const secret = config.tokenKey
 app.use(jwt({ secret }).unless({ path: [/^\/api\/login/, /\/api\/uploadDelete/, /\/api\/download/] }))
+
+app.mount = {
+    log
+}
 
 app.use(routes.routes(), routes.allowedMethods())
 

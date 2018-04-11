@@ -1,9 +1,11 @@
 import Country from './../../../../models/country'
+import log from './../../../../log'
 
 export default (criteria, fields, options) => {
     return new Promise((resolve, reject) => {
         Country.find(criteria, fields, options, (err, result) => {
             if (err) {
+                log.warn(JSON.stringify(err))
                 reject({
                     code: '500',
                     data: {
