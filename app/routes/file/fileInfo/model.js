@@ -5,7 +5,7 @@ export default (criteria, fields, options, populate) => {
     return new Promise((resolve, reject) => {
         File.findOne(criteria, fields, options, (err, result) => {
             if (err) {
-                log.warn(JSON.stringify(err))
+                log.warn(__filename, JSON.stringify(err))
                 reject({
                     code: '500',
                     data: {},
@@ -19,7 +19,7 @@ export default (criteria, fields, options, populate) => {
                     }
                 })
             } else {
-                log.warn('文件不存在' + JSON.stringify(criteria))
+                log.warn(__filename, '文件不存在' + JSON.stringify(criteria))
                 reject({
                     code: '401',
                     data: {}

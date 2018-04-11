@@ -5,7 +5,7 @@ export default (criteria) => {
     return new Promise((resolve, reject) => {
         File.update(criteria, { is_deleted: 0 }, { sort: [{ createTime: -1 }] }, (err, result) => {
             if (err) {
-                log.warn(JSON.stringify(err))
+                log.warn(__filename, JSON.stringify(err))
                 reject({
                     code: '500',
                     data: {},

@@ -5,7 +5,7 @@ export default (criteria) => {
     return new Promise((resolve, reject) => {
         BookVolume.remove(criteria, async (err, result) => {
             if (err) {
-                log.warn(JSON.stringify(err))
+                log.warn(__filename, JSON.stringify(err))
                 reject({
                     code: '500',
                     data: {},

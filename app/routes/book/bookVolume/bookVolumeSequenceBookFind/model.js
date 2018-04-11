@@ -5,7 +5,7 @@ export default (sequence, book) => {
     return new Promise((resolve, reject) => {
         BookVolume.find({ is_deleted: 1, sequence: Number(sequence), book: book }, { volume: 1 }, { sort: [{ createTime: -1 }] }, async (err, result) => {
             if (err) {
-                log.warn(JSON.stringify(err))
+                log.warn(__filename, JSON.stringify(err))
                 reject({
                     code: '500',
                     data: {

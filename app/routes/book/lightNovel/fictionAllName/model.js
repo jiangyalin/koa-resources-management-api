@@ -5,7 +5,7 @@ export default (criteria, fields, options, populate) => {
     return new Promise((resolve, reject) => {
         Book.find(criteria, fields, options, (err, result) => {
             if (err) {
-                log.warn(JSON.stringify(err))
+                log.warn(__filename, JSON.stringify(err))
                 reject({
                     code: '500',
                     data: {},

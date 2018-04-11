@@ -11,7 +11,7 @@ export default (path, dataBuffer) => {
 
         fs.writeFile(dstPath, dataBuffer, async (err) => {
             if (err) {
-                log.warn('avatar创建文件: ' + JSON.stringify(err))
+                log.warn(__filename, 'avatar创建文件: ' + JSON.stringify(err))
                 reject('rename error: ' + err)
             }
 
@@ -26,7 +26,7 @@ export default (path, dataBuffer) => {
             const model = new Promise((resolve, reject) => {
                 File.create(fileInfo, (err, result) => {
                     if (err) {
-                        log.warn(JSON.stringify(err))
+                        log.warn(__filename, JSON.stringify(err))
                         reject({
                             code: '500',
                             data: {}

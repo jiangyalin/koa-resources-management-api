@@ -17,7 +17,7 @@ export default (ctx, path, form) => {
             const file = new Promise((resolve, reject) => {
                 fs.rename(uploadedPath, dstPath, async (err) => {
                     if (err) {
-                        log.warn('img重命名: ' + JSON.stringify(err))
+                        log.warn(__filename, 'img重命名: ' + JSON.stringify(err))
                         reject('rename error: ' + err)
                     }
 
@@ -32,7 +32,7 @@ export default (ctx, path, form) => {
                     const model = new Promise((resolve, reject) => {
                         File.create(fileInfo, (err, result) => {
                             if (err) {
-                                log.warn(JSON.stringify(err))
+                                log.warn(__filename, JSON.stringify(err))
                                 reject({
                                     code: '500',
                                     data: {}
