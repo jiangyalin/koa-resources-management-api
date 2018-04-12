@@ -1,5 +1,5 @@
 import Router from 'koa-router'
-import Account from './model'
+import User from './model'
 
 const router = Router()
 
@@ -7,12 +7,12 @@ const router = Router()
 router.post('/', async (ctx, next) => {
     const parameter = ctx.request.body
 
-    const criteria = { is_deleted: 1, $or: [{ account: parameter.username, password: parameter.password }] } // 查询条件
-    const populate = [{ path: 'user' }]
-    const fields = { account: 1, password: 1, type: 1, user: 1 } // 待返回的字段
+    const criteria = { is_deleted: 1, is_active: 1, password: parameter.password, $or: [{ nickname: parameter.username }, { phone: parameter.username }, { eMail: parameter.username }] } // 查询条件
+    const populate = []
+    const fields = { name: 1, nickname: 1, gender: 1, phone: 1, eMail: 1, birthDate: 1, avatar: 1, type: 1 } // 待返回的字段
     const options = { sort: [{ createTime: -1 }] } // 排序
 
-    const model = Account(criteria, fields, options, populate)
+    const model = User(criteria, fields, options, populate)
 
     ctx.body = await model.then((resolve) => {
         return resolve

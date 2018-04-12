@@ -1,13 +1,13 @@
 import config from './../../../config'
 import jwt from 'jsonwebtoken'
-import Account from './../../../models/user/account'
+import User from './../../../models/user/user'
 import log from './../../../log'
 
 export default (criteria, fields, options, populate) => {
     return new Promise((resolve, reject) => {
-        Account.findOne(criteria, fields, options, (err, result) => {
+        User.findOne(criteria, fields, options, (err, result) => {
             if (err) {
-                log.warn(__filename, __filename, JSON.stringify(err))
+                log.warn(__filename, JSON.stringify(err))
                 reject({
                     code: '500',
                     data: {},
@@ -19,7 +19,7 @@ export default (criteria, fields, options, populate) => {
                 resolve({
                     code: '200',
                     data: {
-                        ...result._doc,
+                        user: result,
                         token
                     }
                 })

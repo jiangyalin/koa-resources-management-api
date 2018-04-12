@@ -31,7 +31,7 @@ app.use(errorHandle)
 const secret = config.tokenKey
 app.use(jwt({ secret }).unless({ path: [/^\/api\/login/, /\/api\/uploadDelete/, /\/api\/download/] }))
 
-app.mount = {
+global.mount = {
     log
 }
 
