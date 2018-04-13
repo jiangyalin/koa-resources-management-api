@@ -9,5 +9,14 @@ export default {
     mongodb: 'mongodb://localhost:27017/acgnDB',
     ip: 'localhost',
     server: 'http://localhost:8088',
-    tokenKey: 'YaLin'
+    tokenKey: 'YaLin',
+    eMail: {
+        host: 'smtp.163.com', // 设置服务
+        port: 465, // 端口
+        sercure: true, // 是否使用TLS，true，端口为465，否则其他或者568
+        auth: {
+            user: '18725944157@163.com', // 邮箱和密码
+            pass: 'jiang1995991'
+        }
+    }
 }

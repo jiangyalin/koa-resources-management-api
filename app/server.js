@@ -29,7 +29,7 @@ app.use(staticCache(path.join(__dirname, './public'), {
 app.use(errorHandle)
 
 const secret = config.tokenKey
-app.use(jwt({ secret }).unless({ path: [/^\/api\/login/, /\/api\/uploadDelete/, /\/api\/download/] }))
+app.use(jwt({ secret }).unless({ path: [/^\/api\/login/, /^\/api\/join/, /\/api\/uploadDelete/, /\/api\/download/, /\/api\/activateAccount/] }))
 
 global.mount = {
     log
