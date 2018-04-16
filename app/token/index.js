@@ -1,3 +1,5 @@
+import log from './../log'
+
 const errorHandle = (ctx, next) => {
     return next().catch((err) => {
         if (err.status === 401) {
@@ -6,8 +8,10 @@ const errorHandle = (ctx, next) => {
                 error: err.originalError ? err.originalError.message : err.message
             }
         } else {
-            throw err
+            ctx.body = err.message
+            // throw err
         }
+        log.warn(__filename, JSON.stringify(err))
     })
 }
 

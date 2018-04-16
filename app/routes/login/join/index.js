@@ -34,14 +34,13 @@ router.post('/', async (ctx, next) => {
 
     if (data.code === '401') {
         const token = jwt.sign({ eMail: parameter.eMail, password: parameter.password }, config.tokenKey, { expiresIn: 60 * 60 * 1 }) // 有效期1个小时
-        console.log('token', token)
 
         const href = config.server + '/api/activateAccount/' + token
 
         // 邮件信息
         const mailOptions = {
             from: '18725944157@163.com', // 发送邮箱
-            to: '18725944157@163.com', // 接受邮箱
+            to: parameter.eMail, // 接受邮箱
             subject: 'acgn账号激活邮件', // 标题
             html: '<p>点击连接激活账号,有效期1个小时,如你没有注册acgn，请无视此邮件。</p><a href="'+ href + '">确认激活</a>' // 内容
         }

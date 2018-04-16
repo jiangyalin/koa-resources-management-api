@@ -9,6 +9,7 @@ import koaBody from 'koa-body'
 import jwt from 'koa-jwt'
 import config from './config'
 import errorHandle from './token'
+import timing from './timing'
 import log from './log'
 import routes from './routes'
 const app = new Koa()
@@ -36,6 +37,8 @@ global.mount = {
 }
 
 app.use(routes.routes(), routes.allowedMethods())
+
+timing.startUp()
 
 app.listen(config.port, () => {
     console.log('启动成功：' + config.port)
