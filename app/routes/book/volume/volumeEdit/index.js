@@ -4,7 +4,6 @@ import VolumeInfo from './../volumeInfo/model'
 import VolumeRemove from './../volumeRemove/model'
 import FictionEdit from './../../lightNovel/fictionEdit/model'
 import FileDelete from './../../../file/fileDelete/model'
-import BookVolumeRemove from './../../bookVolume/bookVolumeRemove/model'
 
 const router = Router()
 
@@ -54,19 +53,6 @@ router.post('/', async (ctx, next) => {
     }).catch((reject) => {
         return reject
     })
-
-    // 删除卷表-书关系表中同一书下同一序列号的数据（真删）
-    let data2 = {}
-    const criteria2 = { is_deleted: 1, sequence: parameter.sequence, book: parameter.book }
-    if (data.code === '200') {
-        const model2 = BookVolumeRemove(criteria2)
-
-        data2 = await model2.then((resolve) => {
-            return resolve
-        }).catch((reject) => {
-            return reject
-        })
-    }
 
     // 添加卷
     let data3 = {

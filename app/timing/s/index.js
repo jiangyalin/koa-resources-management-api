@@ -1,3 +1,3 @@
 export default setInterval(() => {
-    console.log('dd')
+    // console.log('dd')
 }, 1000)

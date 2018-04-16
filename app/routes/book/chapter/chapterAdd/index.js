@@ -4,6 +4,7 @@ import HtmlToText from 'html-to-text'
 import ChapterAdd from './model'
 import ChapterDelete from './../chapterDelete/model'
 import FileAdd from './../../../file/fileAdd/model'
+import chapterMerge from './../chapterMerge'
 
 const router = Router()
 
@@ -98,11 +99,17 @@ router.post('/', async (ctx, next) => {
 
     const mode2 = ChapterAdd(chapter)
 
-    ctx.body = await mode2.then((resolve) => {
+    const data2 = await mode2.then((resolve) => {
         return resolve
     }).catch((reject) => {
         return reject
     })
+
+    ctx.body = data2
+
+    // 合并章到卷
+    if (data2.code === '200') chapterMerge.up(parameter.volume)
+
 })
 
 export default router

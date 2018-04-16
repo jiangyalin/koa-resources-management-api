@@ -1,6 +1,5 @@
 import Router from 'koa-router'
-import BookVolumeSequenceBookFind from './../../bookVolume/bookVolumeSequenceBookFind/model'
-import BookVolumeAdd from './../../bookVolume/bookVolumeAdd/model'
+import VolumeInfo from './../../volume/volumeInfo/model'
 import VolumeAdd from './model'
 import VolumeEdit from './../volumeEdit/model'
 import FictionEdit from './../../lightNovel/fictionEdit/model'
@@ -20,18 +19,26 @@ router.post('/', async (ctx, next) => {
         book: parameter.book // 书
     }
 
-    // 验证此书下是否存在相同的序列号
-    const model = BookVolumeSequenceBookFind(parameter.sequence, parameter.book)
+    const criteria1 = { is_deleted: 1, $or: [{ book: parameter.book, sequence: parameter.sequence }] } // 查询条件
+    const populate1 = []
+    const fields1 = { } // 待返回的字段
+    const options1 = { sort: [{ createTime: -1 }] } // 排序
 
-    const data1 = await model.then((resolve) => {
+    // 验证此书下是否存在相同的序列号
+    const model1 = VolumeInfo(criteria1, fields1, options1, populate1)
+
+    const data1 = await model1.then((resolve) => {
         return resolve
     }).catch((reject) => {
         return reject
     })
 
-    let data2 = {}
+    let data2 = {
+        code: '501',
+        message: '网络错误'
+    }
     // 不存在则添加此卷并且添加关联关系
-    if (data1.data.bookVolume.length === 0) {
+    if (data1.code === '401') {
         const model = VolumeAdd(volume)
 
         data2 = await model.then((resolve) => {
@@ -39,24 +46,9 @@ router.post('/', async (ctx, next) => {
         }).catch((reject) => {
             return reject
         })
-
-        // 添加关联关系
-        const bookVolume = {
-            sequence: Number(parameter.sequence), // 序列号
-            book: parameter.book, // 书
-            volume: data2.data._id // 卷
-        }
-
-        const model2 = BookVolumeAdd(bookVolume)
-
-        data2 = await model2.then((resolve) => {
-            return resolve
-        }).catch((reject) => {
-            return reject
-        })
     }
     // 存在则更改卷相同此书下形同序列号的卷信息
-    if (data1.data.bookVolume.length > 0) {
+    if (data1.code === '200') {
         const criteria = { is_deleted: 1, _id: data1.data.bookVolume[0].volume } // 查询条件
         const doc = volume
         const options = { sort: [{ createTime: -1 }] } // 排序

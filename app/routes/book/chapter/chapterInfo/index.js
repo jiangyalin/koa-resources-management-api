@@ -18,7 +18,6 @@ router.get('/', async (ctx, next) => {
     }).catch((reject) => {
         return reject
     })
-    
 })
 
 export default router
