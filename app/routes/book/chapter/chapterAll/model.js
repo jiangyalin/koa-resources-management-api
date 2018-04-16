@@ -15,7 +15,7 @@ export default (criteria, fields, options, populate) => {
                 resolve({
                     code: '200',
                     data: {
-                        ...result._doc
+                        chapter: result
                     }
                 })
             } else {
