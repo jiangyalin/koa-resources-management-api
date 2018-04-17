@@ -1,5 +1,5 @@
 import Router from 'koa-router'
-import VolumeAllName from './model'
+import VolumeAll from './../volumeAll/model'
 
 const router = Router()
 
@@ -12,7 +12,7 @@ router.get('/', async (ctx, next) => {
     const fields = { name: 1, sequence: 1 } // 待返回的字段
     const options = { sort: [{ sequence: 1 }] } // 排序
 
-    const model = VolumeAllName(criteria, fields, options, populate)
+    const model = VolumeAll(criteria, fields, options, populate)
 
     ctx.body = await model.then((resolve) => {
         return resolve
