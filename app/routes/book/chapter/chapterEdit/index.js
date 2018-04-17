@@ -3,7 +3,9 @@ import Router from 'koa-router'
 import HtmlToText from 'html-to-text'
 import ChapterDelete from './../chapterDelete/model'
 import ChapterAdd from './../chapterAdd/model'
+import ChapterInfo from './../chapterInfo/model'
 import FileAdd from './../../../file/fileAdd/model'
+import FileDelete from './../../../file/fileDelete/model'
 import FictionEdit from './../../lightNovel/fictionEdit/model'
 import chapterMerge from './../chapterMerge'
 
@@ -13,16 +15,7 @@ const router = Router()
 router.post('/', async (ctx, next) => {
     const parameter = ctx.request.body
 
-    // 删除章表中同一卷下同一序列号的数据
-    const criteria = { is_deleted: 1, sequence: Number(parameter.sequence), volume: parameter.volume }
-    const model = ChapterDelete(criteria)
-
-    await model.then((resolve) => {
-        return resolve
-    }).catch((reject) => {
-        return reject
-    })
-
+    // 解析html成text
     const text = HtmlToText.fromString(parameter.content, {
         format: {
             heading: (elem, fn, options) => {
@@ -50,13 +43,13 @@ router.post('/', async (ctx, next) => {
         singleNewLineParagraphs: true // 段落为单个换行符
     })
 
+    // 创建文件
     const model0 = new Promise((resolve, reject) => {
         const path = '/books/'
         const fileSuffixName = '.txt' // 后缀名
         const name = Date.now() + fileSuffixName // 文件名
         const dstPath = './app/public' + path + name
 
-        // 创建文件
         fs.writeFile(dstPath, text, async (err) => {
             if (err) reject('error: ' + err)
 
@@ -89,8 +82,43 @@ router.post('/', async (ctx, next) => {
         return reject
     })
 
+    // 找到章关联的文件id
+    const criteria1 = { is_deleted: 1, $or: [{ volume: parameter.volume, sequence: Number(parameter.sequence) }] } // 查询条件
+    const populate1 = []
+    const fields1 = { file: 1 } // 待返回的字段
+    const options1 = { sort: [{ createTime: -1 }] } // 排序
+
+    const model1 = ChapterInfo(criteria1, fields1, options1, populate1)
+
+    const data = await model1.then((resolve) => {
+        return resolve
+    }).catch((reject) => {
+        return reject
+    })
+
+    // 删除文件
+    const criteria2 = { is_deleted: 1, _id: data.data.file } // 查询条件
+
+    const model2 = FileDelete(criteria2)
+
+    await model2.then((resolve) => {
+        return resolve
+    }).catch((reject) => {
+        return reject
+    })
+
+    // 删除章表中同一卷下同一序列号的数据
+    const criteria = { is_deleted: 1, sequence: Number(parameter.sequence), volume: parameter.volume }
+    const model = ChapterDelete(criteria)
+
+    await model.then((resolve) => {
+        return resolve
+    }).catch((reject) => {
+        return reject
+    })
+
     // 添加章
-    const chapter = {
+    const chapter4 = {
         name: parameter.name, // 章名称
         sequence: Number(parameter.sequence), // 序列号
         file: file.data.id, // 文件
@@ -98,9 +126,9 @@ router.post('/', async (ctx, next) => {
         volume: parameter.volume // 卷
     }
 
-    const model2 = ChapterAdd(chapter)
+    const model4 = ChapterAdd(chapter4)
 
-    const data = await model2.then((resolve) => {
+    const data4 = await model4.then((resolve) => {
         return resolve
     }).catch((reject) => {
         return reject
@@ -115,7 +143,7 @@ router.post('/', async (ctx, next) => {
         return reject
     })
 
-    ctx.body = data
+    ctx.body = data4
     
     // 合并章到卷
     if (data.code === '200') chapterMerge.up(parameter.volume)

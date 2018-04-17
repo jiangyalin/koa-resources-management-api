@@ -18,13 +18,13 @@ router.post('/', async (ctx, next) => {
         // file: parameter.file, // 文件
         book: parameter.book // 书
     }
-
+    
+    // 验证此书下是否存在相同的序列号
     const criteria1 = { is_deleted: 1, $or: [{ book: parameter.book, sequence: parameter.sequence }] } // 查询条件
     const populate1 = []
     const fields1 = { } // 待返回的字段
     const options1 = { sort: [{ createTime: -1 }] } // 排序
-
-    // 验证此书下是否存在相同的序列号
+    
     const model1 = VolumeInfo(criteria1, fields1, options1, populate1)
 
     const data1 = await model1.then((resolve) => {
