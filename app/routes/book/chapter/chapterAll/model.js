@@ -21,7 +21,9 @@ export default (criteria, fields, options, populate) => {
             } else {
                 reject({
                     code: '401',
-                    data: {}
+                    data: {
+                        chapter: []
+                    }
                 })
             }
         }).populate(populate)

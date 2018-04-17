@@ -1,5 +1,8 @@
 import Router from 'koa-router'
 import VolumeDelete from './model'
+import ChapterAll from './../../chapter/chapterAll/model'
+import ChapterDelete from './../../chapter/chapterDelete/model'
+import FileDelete from './../../../file/fileDelete/model'
 
 const router = Router()
 
@@ -7,18 +10,68 @@ const router = Router()
 router.delete('/', async (ctx, next) => {
     const parameter = ctx.query
 
-    const criteria = { is_deleted: 1, _id: parameter.id } // 查询条件
+    // 查询卷关联的章文件（取得章关联的文件及卷关联的文件）
+    const criteria0 = { is_deleted: 1, $or: [{ volume: parameter.id }] } // 查询条件
+    const populate0 = [{ path: 'volume' }]
+    const fields0 = { file: 1, volume: 1 } // 待返回的字段
+    const options0 = { sort: [{ sequence: 1 }] } // 排序
 
-    // 删除卷
-    const model = VolumeDelete(criteria)
+    const model0 = ChapterAll(criteria0, fields0, options0, populate0)
 
-    const data = await model.then((resolve) => {
+    const data = await model0.then((resolve) => {
         return resolve
     }).catch((reject) => {
         return reject
     })
 
-    ctx.body = data2
+    let fileList = []
+
+    if (data.data.chapter && data.data.chapter.length !== 0) {
+        fileList.push(data.data.chapter[0].volume.file)
+        fileList.push(data.data.chapter[0].volume.cover)
+        data.data.chapter.forEach((data) => {
+            fileList.push(data.file)
+        })
+    }
+
+    // 删除文件
+    fileList.forEach(async (data) => {
+        const criteria = { is_deleted: 1, $or: [{ _id: data }] } // 查询条件
+
+        const model = FileDelete(criteria)
+
+        await model.then((resolve) => {
+            return resolve
+        }).catch((reject) => {
+            return reject
+        })
+    })
+
+    // 删除章
+    if (data.data.chapter) {
+        data.data.chapter.forEach(async (data) => {
+            const criteria1 = { is_deleted: 1, _id: data._id } // 查询条件
+
+            const model1 = ChapterDelete(criteria1)
+
+            await model1.then((resolve) => {
+                return resolve
+            }).catch((reject) => {
+                return reject
+            })
+        })
+    }
+
+    // 删除卷
+    const criteria2 = { is_deleted: 1, _id: parameter.id } // 查询条件
+
+    const model2 = VolumeDelete(criteria2)
+
+    ctx.body = await model2.then((resolve) => {
+        return resolve
+    }).catch((reject) => {
+        return reject
+    })
 })
 
 export default router

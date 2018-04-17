@@ -1,4 +1,5 @@
 const fs = require('fs')
+const Chapter = require('./models/chapter')
 const Volume = require('./models/volume')
 const Book = require('./models/book')
 const User = require('./models/user')
@@ -8,8 +9,22 @@ const App = require('./models/app')
 * 文件删除步骤
 * 1. 运行index找到所有有引用的文件id并放入相应的json
 * 2. 运行json读取有引用的文件id，反向找到所有无引用的文件id，更改无应用的文件id的删除状态
-* 3. 删除所有状态为0的文件
+* 3. 运行fileRemove删除所有状态为0的文件
+* 4. 运行fileDelete删除所有状态为0的文件数据
 * */
+
+Chapter.find({ is_deleted: 1 }, { file: 1 }, { sort: [{ createTime: -1 }] }, (err, result) => {
+    if (err) return console.log('err', err)
+    let id = []
+    result.forEach(data => {
+        if (data.file !== null && data.file !== undefined && data.file !== '') id.push(data.file)
+    })
+    const fileId = { id }
+    fs.writeFile('./log/chapter.json', JSON.stringify(fileId), err => {
+        if (err) return console.log('err', err)
+        console.log('Saved.')
+    })
+})
 
 Volume.find({ is_deleted: 1 }, { cover: 1, file: 1 }, { sort: [{ createTime: -1 }] }, (err, result) => {
     if (err) return console.log('err', err)

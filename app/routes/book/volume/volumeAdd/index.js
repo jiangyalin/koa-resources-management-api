@@ -15,7 +15,7 @@ router.post('/', async (ctx, next) => {
         name: parameter.name, // 卷名称
         releaseTime: parameter.releaseTime, // 发售时间
         cover: parameter.cover, // 封面
-        file: parameter.file, // 文件
+        // file: parameter.file, // 文件
         book: parameter.book // 书
     }
 
