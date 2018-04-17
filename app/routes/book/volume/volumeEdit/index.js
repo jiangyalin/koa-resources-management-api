@@ -1,7 +1,7 @@
 import Router from 'koa-router'
 import VolumeAdd from './../volumeAdd/model'
 import VolumeInfo from './../volumeInfo/model'
-import VolumeRemove from './../volumeRemove/model'
+import VolumeDelete from './../volumeDelete/model'
 import FictionEdit from './../../lightNovel/fictionEdit/model'
 import FileDelete from './../../../file/fileDelete/model'
 
@@ -11,7 +11,7 @@ const router = Router()
 router.post('/', async (ctx, next) => {
     const parameter = ctx.request.body
 
-    // 查询废弃的文件与封面id
+    // 查询废弃的封面id
     const model0 = VolumeInfo({ is_deleted: 1, sequence: parameter.sequence, book: parameter.book }, { file: 1, cover: 1 }, { sort: [{ createTime: -1 }] }, [])
 
     const volumeInfo = await model0.then((resolve) => {
@@ -19,18 +19,6 @@ router.post('/', async (ctx, next) => {
     }).catch((reject) => {
         return reject
     })
-
-    // 如果文件有更改
-    if (volumeInfo.data.file !== parameter.file) {
-        // 删除文件
-        const file = FileDelete({ is_deleted: 1, _id: volumeInfo.data.file })
-
-        await file.then((resolve) => {
-            return resolve
-        }).catch((reject) => {
-            return reject
-        })
-    }
 
     // 如果封面有更改
     if (volumeInfo.data.cover !== parameter.cover) {
@@ -44,11 +32,11 @@ router.post('/', async (ctx, next) => {
         })
     }
 
-    // 删除卷表中同一书下同一序列号的数据（真删）
+    // 删除卷表中同一书下同一序列号的数据
     const criteria = { is_deleted: 1, sequence: parameter.sequence, book: parameter.book }
-    const model = VolumeRemove(criteria)
+    const model = VolumeDelete(criteria)
 
-    const data = await model.then((resolve) => {
+    await model.then((resolve) => {
         return resolve
     }).catch((reject) => {
         return reject

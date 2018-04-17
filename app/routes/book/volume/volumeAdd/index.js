@@ -60,17 +60,6 @@ router.post('/', async (ctx, next) => {
             return reject
         })
 
-        if (data1.data.bookVolume[0].volume.file !== parameter.file) {
-            // 删除文件
-            const file = FileDelete({ is_deleted: 1, _id: data1.data.bookVolume[0].volume.file })
-
-            await file.then((resolve) => {
-                return resolve
-            }).catch((reject) => {
-                return reject
-            })
-        }
-
         if (data1.data.bookVolume[0].volume.cover !== parameter.cover) {
             // 删除文件
             const file = FileDelete({ is_deleted: 1, _id: data1.data.bookVolume[0].volume.cover })
