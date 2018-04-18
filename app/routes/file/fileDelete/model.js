@@ -13,8 +13,6 @@ export default (criteria) => {
                 })
             }
 
-            console.log('result', result)
-
             resolve({
                 code: '200',
                 data: {

@@ -8,6 +8,7 @@ import FileAdd from './../../../file/fileAdd/model'
 import FileDelete from './../../../file/fileDelete/model'
 import FictionEdit from './../../lightNovel/fictionEdit/model'
 import chapterMerge from './../chapterMerge'
+import volumeMerge from './../../volume/volumeMerge'
 
 const router = Router()
 
@@ -147,6 +148,7 @@ router.post('/', async (ctx, next) => {
     
     // 合并章到卷
     if (data.code === '200') chapterMerge.up(parameter.volume)
+    if (data2.code === '200') volumeMerge.up(parameter.book)
 })
 
 export default router
