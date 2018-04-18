@@ -1,4 +1,4 @@
-import Library from './../../../../models/library'
+import Library from './../../../../models/book/library'
 import log from './../../../../log'
 
 export default (criteria, fields, options) => {

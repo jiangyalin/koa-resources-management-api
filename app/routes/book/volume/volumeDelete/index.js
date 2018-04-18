@@ -1,8 +1,10 @@
 import Router from 'koa-router'
 import VolumeDelete from './model'
+import VolumeInfo from './../../volume/volumeInfo/model'
 import ChapterAll from './../../chapter/chapterAll/model'
 import ChapterDelete from './../../chapter/chapterDelete/model'
 import FileDelete from './../../../file/fileDelete/model'
+import StatisticsDelete from './../../../basis/statistics/statisticsDelete/model'
 
 const router = Router()
 
@@ -61,6 +63,31 @@ router.delete('/', async (ctx, next) => {
             })
         })
     }
+
+    // 查询此卷的关联统计
+    const criteria1 = { is_deleted: 1, $or: [{ _id: parameter.id }] } // 查询条件
+    const populate1 = []
+    const fields1 = { statistics: 1 } // 待返回的字段
+    const options1 = { sort: [{ createTime: -1 }] } // 排序
+
+    const model1 = VolumeInfo(criteria1, fields1, options1, populate1)
+
+    const volumeInfo = await model1.then((resolve) => {
+        return resolve
+    }).catch((reject) => {
+        return reject
+    })
+
+    // 删除统计
+    const criteria3 = { is_deleted: 1, _id: volumeInfo.data.statistics } // 查询条件
+
+    const model3 = StatisticsDelete(criteria3)
+
+    await model3.then((resolve) => {
+        return resolve
+    }).catch((reject) => {
+        return reject
+    })
 
     // 删除卷
     const criteria2 = { is_deleted: 1, _id: parameter.id } // 查询条件

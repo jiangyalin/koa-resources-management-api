@@ -1,4 +1,4 @@
-import Country from './../../../../models/country'
+import Country from './../../../../models/basis/country'
 import log from './../../../../log'
 
 export default (criteria, fields, options) => {

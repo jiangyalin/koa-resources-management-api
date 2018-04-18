@@ -1,6 +1,6 @@
 import fs from 'fs'
 import mammoth from 'mammoth'
-import File from './../../../models/file'
+import File from './../../../models/basis/file'
 import log from './../../../log'
 
 export default (ctx, path, form) => {

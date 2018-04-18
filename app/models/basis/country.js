@@ -1,4 +1,4 @@
-import mongoose from './../lib/db'
+import mongoose from './../../lib/db'
 const Schema = mongoose.Schema
 
 // 国家模板

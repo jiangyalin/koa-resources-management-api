@@ -1,9 +1,9 @@
-import File from './../../../models/basis/file'
-import log from './../../../log'
+import Statistics from './../../../../models/basis/statistics'
+import log from './../../../../log'
 
 export default (criteria, fields, options, populate) => {
     return new Promise((resolve, reject) => {
-        File.findOne(criteria, fields, options, (err, result) => {
+        Statistics.findOne(criteria, fields, options, (err, result) => {
             if (err) {
                 log.warn(__filename, JSON.stringify(err))
                 reject({
@@ -19,7 +19,6 @@ export default (criteria, fields, options, populate) => {
                     }
                 })
             } else {
-                log.warn(__filename, '文件不存在' + JSON.stringify(criteria))
                 reject({
                     code: '401',
                     data: {}

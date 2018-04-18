@@ -1,4 +1,4 @@
-import File from './../../../models/file'
+import File from './../../../models/basis/file'
 import log from './../../../log'
 
 export default (fileInfo) => {

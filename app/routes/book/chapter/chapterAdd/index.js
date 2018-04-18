@@ -138,6 +138,7 @@ router.post('/', async (ctx, next) => {
 
     // 合并章到卷
     if (data2.code === '200') chapterMerge.up(parameter.volume)
+    // 合并到书
     if (data2.code === '200') volumeMerge.up(parameter.book)
 
 })

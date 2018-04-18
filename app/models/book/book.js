@@ -11,6 +11,7 @@ const BookSchema = new Schema({
     introduction: { type: String, default: null }, // 简介
     cover: { type: Schema.Types.ObjectId, ref: 'file' }, // 封面
     file: { type: Schema.Types.ObjectId, ref: 'file' }, // 文件
+    statistics: { type: Schema.Types.ObjectId, ref: 'statistics' }, // 统计
     updateTime: { type: Date, default: Date.now }, // 更新时间
     createTime: { type: Date, default: Date.now }, // 创建时间
     is_deleted: { type: Number, default: 1 } // 删除状态

@@ -147,8 +147,9 @@ router.post('/', async (ctx, next) => {
     ctx.body = data4
     
     // 合并章到卷
-    if (data.code === '200') chapterMerge.up(parameter.volume)
-    if (data2.code === '200') volumeMerge.up(parameter.book)
+    if (data4.code === '200') chapterMerge.up(parameter.volume)
+    // 合并到书
+    if (data4.code === '200') volumeMerge.up(parameter.book)
 })
 
 export default router

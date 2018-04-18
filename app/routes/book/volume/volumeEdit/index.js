@@ -1,9 +1,9 @@
 import Router from 'koa-router'
-import VolumeAdd from './../volumeAdd/model'
 import VolumeInfo from './../volumeInfo/model'
-import VolumeDelete from './../volumeDelete/model'
+import VolumeEdit from './../volumeEdit/model'
 import FictionEdit from './../../lightNovel/fictionEdit/model'
 import FileDelete from './../../../file/fileDelete/model'
+import StatisticsAdd from './../../../basis/statistics/statisticsAdd/model'
 
 const router = Router()
 
@@ -32,38 +32,21 @@ router.post('/', async (ctx, next) => {
         })
     }
 
-    // 删除卷表中同一书下同一序列号的数据
-    const criteria = { is_deleted: 1, sequence: parameter.sequence, book: parameter.book }
-    const model = VolumeDelete(criteria)
+    // 编辑卷
+    const criteria = { is_deleted: 1, _id: volumeInfo.data._id } // 查询条件
+    const doc = {
+        name: parameter.name, // 卷名称
+        releaseTime: parameter.releaseTime, // 发售时间
+        cover: parameter.cover // 封面
+    }
+    const options = { sort: [{ createTime: -1 }] } // 排序
+    const model = VolumeEdit(criteria, doc, options)
 
-    await model.then((resolve) => {
+    const volumeEdit = await model.then((resolve) => {
         return resolve
     }).catch((reject) => {
         return reject
     })
-
-    // 添加卷
-    let data3 = {
-        code: '500',
-        data: {}
-    }
-    const volume = {
-        sequence: Number(parameter.sequence), // 序列号
-        name: parameter.name, // 卷名称
-        releaseTime: parameter.releaseTime, // 发售时间
-        cover: parameter.cover, // 封面
-        file: parameter.file, // 文件
-        book: parameter.book // 书
-    }
-    if (data2.code === '200') {
-        const model3 = VolumeAdd(volume)
-
-        data3 = await model3.then((resolve) => {
-            return resolve
-        }).catch((reject) => {
-            return reject
-        })
-    }
 
     // 更新轻小说时间
     const model2 = FictionEdit({ is_deleted: 1, _id: parameter.book }, { updateTime: Date.now() }, { sort: [{ createTime: -1 }] })
@@ -74,7 +57,7 @@ router.post('/', async (ctx, next) => {
         return reject
     })
 
-    ctx.body = data3
+    ctx.body = volumeEdit
 
 })
 

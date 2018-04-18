@@ -1,9 +1,9 @@
-import File from './../../../models/basis/file'
-import log from './../../../log'
+import Statistics from './../../../../models/basis/statistics'
+import log from './../../../../log'
 
-export default (criteria) => {
+export default (criteria, doc, options) => {
     return new Promise((resolve, reject) => {
-        File.update(criteria, { is_deleted: 0 }, { sort: [{ createTime: -1 }] }, (err, result) => {
+        Statistics.update(criteria, doc, options, (err, result) => {
             if (err) {
                 log.warn(__filename, JSON.stringify(err))
                 reject({
