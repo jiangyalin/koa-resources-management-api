@@ -1,5 +1,6 @@
 import Router from 'koa-router'
 import VolumeInfo from './../../../book/volume/volumeInfo/model'
+import FictionInfo from './../../../book/lightNovel/fictionInfo/model'
 import StatisticsInfo from './../../../basis/statistics/statisticsInfo/model'
 import StatisticsEdit from './../../../basis/statistics/statisticsEdit/model'
 
@@ -26,6 +27,16 @@ router.get('/:id/:type', async (ctx, next) => {
         })
 
         statisticsId = volumeInfo.data.statistics
+    } else if (type === 'book') {
+        const model = FictionInfo(criteria, fields, options, populate)
+
+        const fictionInfo = await model.then((resolve) => {
+            return resolve
+        }).catch((reject) => {
+            return reject
+        })
+
+        statisticsId = fictionInfo.data.statistics
     }
 
     // 查询下载纪录

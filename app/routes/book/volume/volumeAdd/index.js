@@ -48,7 +48,7 @@ router.post('/', async (ctx, next) => {
             releaseTime: parameter.releaseTime, // 发售时间
             cover: parameter.cover, // 封面
             book: parameter.book, // 书
-            statistics: data0.data._id
+            statistics: data0.data._id // 统计
         }
 
         const model = VolumeAdd(volume)
