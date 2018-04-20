@@ -1,5 +1,3 @@
-import ip from 'ip'
-
 // mongodb配置文件
 export default {
     port: 8088,
@@ -8,9 +6,9 @@ export default {
         key: 'acgnDB',
         maxAge: 2592000000
     },
-    mongodb: 'mongodb://' + ip.address() + ':27017/acgnDB',
-    ip: ip.address(),
-    server: 'http://' + ip.address() + ':8088',
+    mongodb: 'mongodb://192.168.17.111:27017/acgnDB',
+    ip: '192.168.17.111',
+    server: 'http://192.168.17.111:8088',
     tokenKey: 'YaLin',
     eMail: {
         host: 'smtp.163.com', // 设置服务

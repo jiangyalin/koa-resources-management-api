@@ -24,8 +24,6 @@ router.get('/:id', async (ctx, next) => {
         return reject
     })
 
-    console.log('ppp', statisticsInfo)
-
     // 编辑统计点击
     const criteria1 = { is_deleted: 1, object: id } // 查询条件
     const options1 = { sort: [{ createTime: -1 }] } // 排序

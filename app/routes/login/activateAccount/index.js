@@ -27,12 +27,15 @@ router.get('/:token', async (ctx, next) => {
         return reject
     })
 
+    let html = '<h1>注册失败</h1>'
+
     // 查询此邮箱是否已经注册
     if (data.code === '200') {
         data = {
             code: '4000',
             message: '此邮箱已经注册'
         }
+        html = '<h1>此邮箱已经注册</h1>'
     } else {
         const user = {
             name: '', // 姓名
@@ -49,9 +52,10 @@ router.get('/:token', async (ctx, next) => {
         }).catch((reject) => {
             return reject
         })
+        html = '<h1>注册成功</h1>'
     }
 
-    ctx.body = data
+    ctx.body = html
 
 })
 
