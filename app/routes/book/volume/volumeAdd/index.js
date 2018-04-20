@@ -32,32 +32,40 @@ router.post('/', async (ctx, next) => {
     }
     // 不存在则添加此卷
     if (data1.code === '401') {
-        // 插入统计
-        const model0 = StatisticsAdd({})
-
-        const data0 = await model0.then((resolve) => {
-            return resolve
-        }).catch((reject) => {
-            return reject
-        })
-
         // 添加卷
         const volume = {
             sequence: Number(parameter.sequence), // 序列号
             name: parameter.name, // 卷名称
             releaseTime: parameter.releaseTime, // 发售时间
             cover: parameter.cover, // 封面
-            book: parameter.book, // 书
-            statistics: data0.data._id // 统计
+            book: parameter.book // 书
         }
 
         const model = VolumeAdd(volume)
 
-        data2 = await model.then((resolve) => {
+        const volumeAdd = await model.then((resolve) => {
             return resolve
         }).catch((reject) => {
             return reject
         })
+
+        if (volumeAdd.code === '200') {
+            // 插入统计
+            const statistics = {
+                volume: volumeAdd.data._id, // 对象
+                type: 'volume' // 类型
+            }
+
+            const model0 = StatisticsAdd(statistics)
+
+            await model0.then((resolve) => {
+                return resolve
+            }).catch((reject) => {
+                return reject
+            })
+        }
+
+        data2 = volumeAdd
     }
     // 存在则更改卷相同此书下形同序列号的卷信息
     if (data1.code === '200') {

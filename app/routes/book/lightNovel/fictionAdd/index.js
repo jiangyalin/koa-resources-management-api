@@ -7,15 +7,6 @@ const router = Router()
 // 添加书籍
 router.post('/', async (ctx, next) => {
     const parameter = ctx.request.body
-
-    // 插入统计
-    const model0 = StatisticsAdd({})
-
-    const data0 = await model0.then((resolve) => {
-        return resolve
-    }).catch((reject) => {
-        return reject
-    })
     
     // 添加书籍
     const book = {
@@ -25,17 +16,34 @@ router.post('/', async (ctx, next) => {
         author: parameter.author, // 作者
         cover: parameter.cover, // 封面
         illustrator: parameter.illustrator, // 插画师
-        introduction: parameter.introduction, // 简介
-        statistics: data0.data._id // 统计
+        introduction: parameter.introduction // 简介
     }
 
     const model = FictionAdd(book)
 
-    ctx.body = await model.then((resolve) => {
+    const fictionAdd = await model.then((resolve) => {
         return resolve
     }).catch((reject) => {
         return reject
     })
+
+    if (fictionAdd.code === '200') {
+        // 插入统计
+        const statistics = {
+            book: fictionAdd.data._id, // 对象
+            type: 'book' // 类型
+        }
+
+        const model0 = StatisticsAdd(statistics)
+
+        await model0.then((resolve) => {
+            return resolve
+        }).catch((reject) => {
+            return reject
+        })
+    }
+
+    ctx.body = fictionAdd
 })
 
 export default router

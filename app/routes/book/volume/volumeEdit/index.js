@@ -3,7 +3,6 @@ import VolumeInfo from './../volumeInfo/model'
 import VolumeEdit from './../volumeEdit/model'
 import FictionEdit from './../../lightNovel/fictionEdit/model'
 import FileDelete from './../../../file/fileDelete/model'
-import StatisticsAdd from './../../../basis/statistics/statisticsAdd/model'
 
 const router = Router()
 

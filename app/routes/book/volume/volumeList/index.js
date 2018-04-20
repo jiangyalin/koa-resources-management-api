@@ -6,6 +6,7 @@ const router = Router()
 // 获取卷列表
 router.get('/', async (ctx, next) => {
     const parameter = ctx.query
+
     const book = parameter.book // 书
     const page = Number(parameter.pageNum) + 1 // 当前页码
     const pageSize = Number(parameter.pageSize) // 每页条数
