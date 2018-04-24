@@ -4,7 +4,7 @@ import AwesomeList from './model'
 
 const router = Router()
 
-// 获取章列表
+// 榜单列表
 router.get('/', async (ctx, next) => {
     const parameter = ctx.query
     

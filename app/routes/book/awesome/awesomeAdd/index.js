@@ -25,7 +25,7 @@ router.post('/', async (ctx, next) => {
         message: '此书已经在此届上榜，请勿多次添加'
     }
 
-    if (awesomeInfo.code === '200') {
+    if (awesomeInfo.code !== '200') {
         // 添加榜单
         data = await AwesomeAdd(parameter).then((resolve) => {
             return resolve
