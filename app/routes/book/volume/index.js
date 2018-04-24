@@ -5,6 +5,7 @@ import volumeInfo from './volumeInfo'
 import volumeEdit from './volumeEdit'
 import volumeDelete from './volumeDelete'
 import volumeAllName from './volumeAllName'
+import volumeRepeatVerification from './volumeRepeatVerification'
 
 const router = Router()
 
@@ -21,10 +22,13 @@ router.use('/volume', volumeDelete.routes(), volumeDelete.allowedMethods())
 router.use('/volumeInfo', volumeInfo.routes(), volumeInfo.allowedMethods())
 
 // 编辑卷
-router.use('/volumeInfo', volumeEdit.routes(), volumeEdit.allowedMethods())
+router.use('/volume', volumeEdit.routes(), volumeEdit.allowedMethods())
 
 // 获取所有卷名称
 router.use('/volumeAllName', volumeAllName.routes(), volumeAllName.allowedMethods())
+
+// 卷验证
+router.use('/volume/verification', volumeRepeatVerification.routes(), volumeRepeatVerification.allowedMethods())
 
 export default router
 

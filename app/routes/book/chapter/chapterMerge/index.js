@@ -9,7 +9,7 @@ import VolumeEdit from './../../volume/volumeEdit/model'
 // 合并章到卷
 const chapterMerge = {}
 
-chapterMerge.up = (volume) => {
+chapterMerge.up = (volume, callback) => {
 
     // 找到要合并的章
     const criteria = { is_deleted: 1, $or: [{ volume }] } // 查询条件
@@ -87,12 +87,15 @@ chapterMerge.up = (volume) => {
             // 关联新文件到卷
             const model = VolumeEdit({ is_deleted: 1, _id: volume }, { file: data.data.id }, { sort: [{ createTime: -1 }] })
 
-            await model.then((resolve) => {
+            return await model.then((resolve) => {
                 return resolve
             }).catch((reject) => {
                 return reject
             })
         }
+    }).then(async (data) => {
+        if (data.code === '200') callback()
+        
     }).catch((reject) => {
         return reject
     })

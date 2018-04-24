@@ -10,13 +10,16 @@ import jwt from 'koa-jwt'
 import config from './config'
 import errorHandle from './token'
 import timing from './timing'
-import log from './log'
 import routes from './routes'
 const app = new Koa()
 
 error(app)
 
-app.use(koaBody())
+app.use(koaBody({
+    'formLimit': '10mb',
+    'jsonLimit': '10mb',
+    'textLimit': '10mb'
+}))
 
 app.use(convert(cors()))
 
@@ -31,10 +34,6 @@ app.use(errorHandle)
 
 const secret = config.tokenKey
 app.use(jwt({ secret }).unless({ path: [/^\/api\/login/, /^\/api\/join/, /\/api\/uploadDelete/, /\/api\/download/, /\/api\/activateAccount/] }))
-
-global.mount = {
-    log
-}
 
 app.use(routes.routes(), routes.allowedMethods())
 

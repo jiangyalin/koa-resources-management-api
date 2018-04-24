@@ -31,7 +31,7 @@ volumeMerge.up = async (book) => {
         const name = Date.now() + fileSuffixName // 文件名
         const dstPath = './app/public' + path + name
         const text = data.data.volume[0].book.bookName + '\r\n\r\n'
-
+        
         // 创建文件
         fs.appendFileSync(dstPath, text)
         data.data.volume.forEach((data) => {

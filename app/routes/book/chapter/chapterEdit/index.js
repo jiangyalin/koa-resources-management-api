@@ -36,7 +36,8 @@ router.post('/', async (ctx, next) => {
                     h = '    ' + h.substring(index, h.length)
                 }
                 return h + '\r\n';
-            }
+            },
+            image: () => ''
         },
         wordwrap: 80,
         preserveNewlines: true, // 保留换行符
@@ -146,10 +147,10 @@ router.post('/', async (ctx, next) => {
 
     ctx.body = data4
     
-    // 合并章到卷
-    if (data4.code === '200') chapterMerge.up(parameter.volume)
-    // 合并到书
-    if (data4.code === '200') volumeMerge.up(parameter.book)
+    // 合并章到卷,合并到书
+    if (data2.code === '200') chapterMerge.up(parameter.volume, () => {
+        volumeMerge.up(parameter.book)
+    })
 })
 
 export default router

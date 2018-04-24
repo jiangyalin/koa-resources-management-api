@@ -7,11 +7,12 @@ import FileDelete from './../../../file/fileDelete/model'
 const router = Router()
 
 // 编辑卷
-router.post('/', async (ctx, next) => {
+router.post('/:id', async (ctx, next) => {
+    const id = ctx.params.id
     const parameter = ctx.request.body
 
     // 查询废弃的封面id
-    const model0 = VolumeInfo({ is_deleted: 1, sequence: parameter.sequence, book: parameter.book }, { file: 1, cover: 1 }, { sort: [{ createTime: -1 }] }, [])
+    const model0 = VolumeInfo({ is_deleted: 1, _id: id }, { file: 1, cover: 1 }, { sort: [{ createTime: -1 }] }, [])
 
     const volumeInfo = await model0.then((resolve) => {
         return resolve
