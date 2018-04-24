@@ -1,20 +1,18 @@
 import Awesome from './../../../../models/book/awesome'
 import log from './../../../../log'
 
-export default (objects) => {
+export default (criteria, doc, options) => {
     return new Promise((resolve, reject) => {
-        Awesome.create(objects, async (err, result) => {
+        Awesome.update(criteria, doc, options, (err, result) => {
             if (err) {
                 log.warn(__filename, JSON.stringify(err))
                 reject({
                     code: '500',
-                    data: {
-                        volume: null
-                    },
+                    data: {},
                     message: err.message
                 })
             }
-
+            
             resolve({
                 code: '200',
                 data: {

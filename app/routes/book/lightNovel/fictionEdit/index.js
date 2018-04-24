@@ -7,7 +7,7 @@ const router = Router()
 router.post('/', async (ctx, next) => {
     const parameter = ctx.request.body
     let book = {
-        bookName: parameter.bookName, // 书籍名称
+        name: parameter.name, // 书籍名称
         area: parameter.area, // 地区
         library: parameter.library, // 文库
         author: parameter.author, // 作者

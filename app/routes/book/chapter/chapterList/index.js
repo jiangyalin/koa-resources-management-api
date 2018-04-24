@@ -13,7 +13,7 @@ router.get('/', async (ctx, next) => {
     const page = Number(parameter.pageNum) + 1 // 当前页码
     const pageSize = Number(parameter.pageSize) // 每页条数
     const qs = new RegExp('') // 标题正则参数
-    const populate = [{ path: 'file', select: ['name', 'path', 'size'] }, { path: 'volume', select: ['name', 'sequence'] }, { path: 'book', select: 'bookName' }]
+    const populate = [{ path: 'file', select: ['name', 'path', 'size'] }, { path: 'volume', select: ['name', 'sequence'] }, { path: 'book', select: 'name' }]
     let criteria = {} // 查询条件
     if (volume) {
         criteria = { is_deleted: 1, volume }

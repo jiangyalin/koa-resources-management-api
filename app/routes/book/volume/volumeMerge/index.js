@@ -12,7 +12,7 @@ volumeMerge.up = async (book) => {
 
     // 找到要合并的卷
     const criteria = { is_deleted: 1, $or: [{ book }] } // 查询条件
-    const populate = [{ path: 'file' }, { path: 'book', select: 'bookName'}]
+    const populate = [{ path: 'file' }, { path: 'book', select: 'name'}]
     const fields = { file: 1, name: 1, sequence: 1, book: 1 } // 待返回的字段
     const options = { sort: [{ sequence: 1 }] } // 排序
 
@@ -30,7 +30,7 @@ volumeMerge.up = async (book) => {
         const fileSuffixName = '.txt' // 后缀名
         const name = Date.now() + fileSuffixName // 文件名
         const dstPath = './app/public' + path + name
-        const text = data.data.volume[0].book.bookName + '\r\n\r\n'
+        const text = data.data.volume[0].book.name + '\r\n\r\n'
         
         // 创建文件
         fs.appendFileSync(dstPath, text)

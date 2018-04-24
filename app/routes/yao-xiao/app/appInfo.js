@@ -9,7 +9,7 @@ router.get('/', async (ctx, next) => {
     const criteria = { is_deleted: 1, $or: [{ _id: parameter.id }] } // 查询条件
     const populate = [{ path: 'img' }]
     const fields = { name: 1, type: 1, content: 1, img: 1 } // 待返回的字段
-    const options = { sort: [{ bookName: -1 }] } // 排序
+    const options = { sort: [{ name: -1 }] } // 排序
 
     const model = new Promise((resolve, reject) => {
         App.findOne(criteria, fields, options, (err, result) => {

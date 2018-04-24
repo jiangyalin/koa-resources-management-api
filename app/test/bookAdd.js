@@ -2,7 +2,7 @@ const Book = new require('./book');
 
 // 插入数据
 let book = {
-    bookName: '魔法禁书目录', // 书籍名称
+    name: '魔法禁书目录', // 书籍名称
     area: '日本', // 地区
     releaseTime: new Date(), // 发售时间
     author: '镰池和马', // 作者

@@ -1,15 +1,16 @@
 import Awesome from './../../../../models/book/awesome'
+import PageList from './../../../../models/pageList'
 import log from './../../../../log'
 
-export default (objects) => {
+export default (page, pageSize, populate, criteria, fields, options) => {
     return new Promise((resolve, reject) => {
-        Awesome.create(objects, async (err, result) => {
+        PageList.pageQuery(page, pageSize, Awesome, populate, criteria, fields, options, (err, $page) => {
             if (err) {
                 log.warn(__filename, JSON.stringify(err))
                 reject({
                     code: '500',
                     data: {
-                        volume: null
+                        content: []
                     },
                     message: err.message
                 })
@@ -18,7 +19,8 @@ export default (objects) => {
             resolve({
                 code: '200',
                 data: {
-                    ...result._doc
+                    totalElements: $page.count,
+                    content: $page.results
                 }
             })
         })

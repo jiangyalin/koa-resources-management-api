@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 
 // 轻小说模板
 const BookSchema = new Schema({
-    bookName: { type: String, default: null }, // 书籍名称
+    name: { type: String, default: null }, // 书籍名称
     area: { type: Schema.Types.ObjectId, ref: 'country' }, // 地区
     library: { type: Schema.Types.ObjectId, ref: 'library' }, // 文库
     author: { type: String, default: null }, // 作者
