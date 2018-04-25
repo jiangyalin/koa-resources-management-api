@@ -137,9 +137,7 @@ router.post('/', async (ctx, next) => {
     })
 
     // 更新轻小说时间
-    const model3 = FictionEdit({ is_deleted: 1, _id: parameter.book }, { updateTime: Date.now() }, { sort: [{ createTime: -1 }] })
-
-    await model3.then((resolve) => {
+    await FictionEdit({ is_deleted: 1, _id: parameter.book }, { updateTime: Date.now() }, { sort: [{ createTime: -1 }] }).then((resolve) => {
         return resolve
     }).catch((reject) => {
         return reject
@@ -148,7 +146,7 @@ router.post('/', async (ctx, next) => {
     ctx.body = data4
     
     // 合并章到卷,合并到书
-    if (data2.code === '200') chapterMerge.up(parameter.volume, () => {
+    if (data4.code === '200') chapterMerge.up(parameter.volume, () => {
         volumeMerge.up(parameter.book)
     })
 })

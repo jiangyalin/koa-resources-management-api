@@ -23,8 +23,6 @@ router.get('/', async (ctx, next) => {
         return reject
     })
 
-    console.log('statisticsList', statisticsList)
-
     ctx.body = statisticsList
 
 })

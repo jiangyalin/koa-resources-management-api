@@ -6,6 +6,7 @@ import ChapterInfo from './../chapterInfo/model'
 import ChapterDelete from './../chapterDelete/model'
 import FileAdd from './../../../file/fileAdd/model'
 import FileDelete from './../../../file/fileDelete/model'
+import FictionEdit from './../../lightNovel/fictionEdit/model'
 import chapterMerge from './../chapterMerge'
 import volumeMerge from './../../volume/volumeMerge'
 
@@ -130,6 +131,13 @@ router.post('/', async (ctx, next) => {
     const mode2 = ChapterAdd(chapter)
 
     const data2 = await mode2.then((resolve) => {
+        return resolve
+    }).catch((reject) => {
+        return reject
+    })
+
+    // 更新轻小说时间
+    await FictionEdit({ is_deleted: 1, _id: parameter.book }, { updateTime: Date.now() }, { sort: [{ createTime: -1 }] }).then((resolve) => {
         return resolve
     }).catch((reject) => {
         return reject

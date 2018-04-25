@@ -7,25 +7,24 @@ import StatisticsEdit from './../../../basis/statistics/statisticsEdit/model'
 const router = Router()
 
 // 统计点击
-router.get('/:id', async (ctx, next) => {
+router.get('/:type/:id', async (ctx, next) => {
+    const type = ctx.params.type
     const id = ctx.params.id
 
     // 查询点击纪录
-    const criteria0 = { is_deleted: 1, $or: [{ object: id }] } // 查询条件
+    const criteria0 = { is_deleted: 1, $or: [{ type }] } // 查询条件
     const populate0 = []
     const fields0 = { click: 1 } // 待返回的字段
     const options0 = { sort: [{ createTime: -1 }] } // 排序
 
-    const model0 = StatisticsInfo(criteria0, fields0, options0, populate0)
-
-    const statisticsInfo = await model0.then((resolve) => {
+    const statisticsInfo = await StatisticsInfo(criteria0, fields0, options0, populate0).then((resolve) => {
         return resolve
     }).catch((reject) => {
         return reject
     })
 
     // 编辑统计点击
-    const criteria1 = { is_deleted: 1, object: id } // 查询条件
+    const criteria1 = { is_deleted: 1, [type]: id } // 查询条件
     const options1 = { sort: [{ createTime: -1 }] } // 排序
 
     const model1 = StatisticsEdit(criteria1, { click: statisticsInfo.data.click + 1 }, options1)
