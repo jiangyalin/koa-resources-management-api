@@ -10,7 +10,7 @@ router.get('/:type/:id', async (ctx, next) => {
     const id = ctx.params.id
 
     // 查询点击纪录
-    const criteria0 = { is_deleted: 1, $or: [{ type }] } // 查询条件
+    const criteria0 = { is_deleted: 1, $or: [{ [type]: id }] } // 查询条件
     const populate0 = []
     const fields0 = { down: 1 } // 待返回的字段
     const options0 = { sort: [{ createTime: -1 }] } // 排序
@@ -27,7 +27,7 @@ router.get('/:type/:id', async (ctx, next) => {
     const criteria1 = { is_deleted: 1, [type]: id } // 查询条件
     const options1 = { sort: [{ createTime: -1 }] } // 排序
 
-    const model1 = StatisticsEdit(criteria1, { down: statisticsInfo.data.down + 1 }, options1)
+    const model1 = StatisticsEdit(criteria1, { down: (statisticsInfo.data.down + 1) }, options1)
 
     ctx.body = await model1.then((resolve) => {
         return resolve

@@ -9,9 +9,8 @@ const errorHandle = (ctx, next) => {
             }
         } else {
             ctx.body = err.message
-            // throw err
         }
-        log.warn(__filename, JSON.stringify(err))
+        // log.warn(__filename, JSON.stringify(err))
     })
 }
 
