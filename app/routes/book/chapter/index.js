@@ -5,6 +5,7 @@ import chapterDelete from './chapterDelete'
 import chapterInfo from './chapterInfo'
 import chapterEdit from './chapterEdit'
 import chapterRepeatVerification from './chapterRepeatVerification'
+import chapterOne from './chapterOne'
 const router = Router()
 
 // 章列表
@@ -24,6 +25,9 @@ router.use('/chapterInfo', chapterEdit.routes(), chapterEdit.allowedMethods())
 
 // 章验证
 router.use('/chapter/verification', chapterRepeatVerification.routes(), chapterRepeatVerification.allowedMethods())
+
+// 第一章
+router.use('/chapter/one', chapterOne.routes(), chapterOne.allowedMethods())
 
 export default router
 
