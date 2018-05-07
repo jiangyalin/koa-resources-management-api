@@ -6,6 +6,7 @@ import upload from './upload'
 import download from './download'
 import user from './user'
 import file from './file'
+import banner from './banner'
 import yaoXiao from './yao-xiao'
 
 const router = Router()
@@ -30,6 +31,9 @@ router.use('/api', user.routes(), user.allowedMethods())
 
 // 文件
 router.use('/api', file.routes(), file.allowedMethods())
+
+// banner
+router.use('/api', banner.routes(), banner.allowedMethods())
 
 // 姚逍
 router.use('/api', yaoXiao.routes(), yaoXiao.allowedMethods())
