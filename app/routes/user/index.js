@@ -8,7 +8,7 @@ const router = Router()
 router.use('/user', user.routes(), user.allowedMethods())
 
 // 用户
-router.use('/skin', skin.routes(), skin.allowedMethods())
+router.use('/user', skin.routes(), skin.allowedMethods())
 
 export default router
 

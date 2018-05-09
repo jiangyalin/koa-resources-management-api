@@ -11,7 +11,7 @@ router.get('/', async (ctx, next) => {
     const qs = new RegExp('') // 标题正则参数
     const populate = [{ path: 'avatar' }]
     const criteria = { is_deleted: 1, $or: [{ name: qs }] } // 查询条件
-    const fields = { name: 1, nickname: 1, gender: -1, phone: 1, eMail: 1, birthDate: 1, avatar: 1 } // 待返回的字段
+    const fields = { name: 1, nickname: 1, gender: -1, phone: 1, eMail: 1, birthDate: 1, avatar: 1, skin: 1 } // 待返回的字段
     const options = { sort: [{ releaseTime: -1 }] } // 排序
 
     ctx.body = await UserList(page, pageSize, populate, criteria, fields, options).then((resolve) => {

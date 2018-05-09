@@ -1,17 +1,14 @@
 import Skin from './../../../../models/user/skin'
-import PageList from './../../../../models/pageList'
 import log from './../../../../log'
 
-export default (page, pageSize, populate, criteria, fields, options) => {
+export default (criteria, doc, options) => {
     return new Promise((resolve, reject) => {
-        PageList.pageQuery(page, pageSize, Skin, populate, criteria, fields, options, (err, $page) => {
+        Skin.update(criteria, doc, options, (err, result) => {
             if (err) {
                 log.warn(__filename, JSON.stringify(err))
                 reject({
                     code: '500',
-                    data: {
-                        content: []
-                    },
+                    data: {},
                     message: err.message
                 })
             }
@@ -19,8 +16,7 @@ export default (page, pageSize, populate, criteria, fields, options) => {
             resolve({
                 code: '200',
                 data: {
-                    totalElements: $page.count,
-                    content: $page.results
+                    ...result._doc
                 }
             })
         })

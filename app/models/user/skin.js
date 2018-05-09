@@ -5,7 +5,7 @@ const Schema = mongoose.Schema
 const SkinSchema = new Schema({
     user: { type: Schema.Types.ObjectId, ref: 'user' }, // 用户
     type_a_backgroundColor: { type: Array, default: [0, 0, 0, 0] }, // 类型a盒子背景颜色raba
-    type_a_boxShadow: { type: Array, default: [0, 0, 0, 0, [0, 0, 0, 0]] }, // 类型a盒子阴影 左位移，上位移，扩展，大小，rgba
+    type_a_boxShadow: { type: Array, default: [0, 1, 0, 2, [0, 0, 0, 0.1]] }, // 类型a盒子阴影 左位移，上位移，扩展，大小，rgba
     type_a_backgroundImage: { type: Schema.Types.ObjectId, ref: 'file' }, // 类型a盒子背景图片
     type_a_backgroundSize: { type: Number, default: 0 }, // 类型a盒子背景图片大小
     backgroundImage: { type: Schema.Types.ObjectId, ref: 'file' }, // 网页背景图片
