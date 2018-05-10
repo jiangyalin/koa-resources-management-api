@@ -16,9 +16,7 @@ router.post('/', async (ctx, next) => {
     const fields = { name: 1, nickname: 1, gender: 1, phone: 1, eMail: 1, birthDate: 1, avatar: 1, type: 1 } // 待返回的字段
     const options = { sort: [{ createTime: -1 }] } // 排序
 
-    const model = UserInfo(criteria, fields, options, populate)
-
-    let data = await model.then((resolve) => {
+    let data = await UserInfo(criteria, fields, options, populate).then((resolve) => {
         return resolve
     }).catch((reject) => {
         return reject
