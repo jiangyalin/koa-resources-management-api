@@ -7,7 +7,9 @@ export default (ctx, path, form) => {
         form.parse(ctx.req, async (err, fields, files) => {
             if (err) reject('parse error: ' + err)
             
-            const inputFile = files.file[0]
+            let inputFile = {}
+            if (files.file) inputFile = files.file[0]
+            if (files.files) inputFile = files.files[0]
             const fileSuffixName = inputFile.originalFilename.substring(inputFile.originalFilename.lastIndexOf('.'))
             inputFile.originalFilename = Date.now() + fileSuffixName
             const uploadedPath = inputFile.path
