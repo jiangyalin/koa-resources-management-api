@@ -12,10 +12,8 @@ router.post('/', async (ctx, next) => {
         maxFieldsSize: 100,
         uploadDir: './app/public' + path
     })
-    
-    const model = FileUpload(ctx, path, form)
 
-    ctx.body = await model.then((resolve) => {
+    ctx.body = await FileUpload(ctx, path, form).then((resolve) => {
         return resolve
     }).catch((reject) => {
         return reject

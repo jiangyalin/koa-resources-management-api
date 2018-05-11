@@ -13,9 +13,7 @@ router.post('/', async (ctx, next) => {
         uploadDir: './app/public' + path
     })
 
-    const model = ImgUpload(ctx, path, form)
-
-    ctx.body = await model.then((resolve) => {
+    ctx.body = await ImgUpload(ctx, path, form).then((resolve) => {
         return resolve
     }).catch((reject) => {
         return reject
