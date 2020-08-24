@@ -16,7 +16,7 @@ export default {
         sercure: true, // 是否使用TLS，true，端口为465，否则其他或者568
         auth: {
             user: '18725944157@163.com', // 邮箱和密码
-            pass: 'jiang1995991'
+            pass: 'xxx'
         }
     }
 }
