@@ -10,7 +10,7 @@
     "test": "cross-env NODE_ENV=test ./node_modules/.bin/nodemon ./index.js"
   },
   "dependencies": {
-    "axios": "^0.17.1",
+    "axios": "^0.20.0",
     "babel-register": "^6.26.0",
     "docx4js": "^3.1.12",
     "html-to-text": "^4.0.0",
